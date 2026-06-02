@@ -32,3 +32,6 @@ next-env.d.ts
 
 # sanity
 .sanity/
+
+.DS_Store
+next-env.d.ts
