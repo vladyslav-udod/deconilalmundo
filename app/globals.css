@@ -2237,6 +2237,16 @@ script[type="application/ld+json"] {
     display: flex;
   }
 
+  .nav .brand .mark {
+    width: 100px;
+    height: 100px;
+    flex: 0 0 100px;
+  }
+
+  .nav .brand .wordmark b {
+    font-size: 15px;
+  }
+
   /* Two-column bar on mobile: brand on the left, controls on the right. */
   .nav {
     grid-template-columns: 1fr auto;
@@ -2333,7 +2343,7 @@ script[type="application/ld+json"] {
     margin-top: 36px;
   }
   .stat {
-    padding: 26px 20px;
+    padding: 26px 18px;
     min-width: 0;
   }
   .stat .n {
