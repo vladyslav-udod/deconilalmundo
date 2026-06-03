@@ -2396,4 +2396,9 @@ script[type="application/ld+json"] {
   .scroll-down {
     display: none;
   }
+
+  .btn-primary {
+    padding: 16px;
+    font-size: 14px;
+  }
 }
