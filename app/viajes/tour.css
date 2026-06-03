@@ -766,7 +766,7 @@
 }
 .tp .date-table .thead {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr auto;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
   gap: 20px;
   align-items: center;
   padding: 16px 28px;
@@ -780,7 +780,7 @@
 }
 .tp .date-row {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr auto;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
   gap: 20px;
   align-items: center;
   padding: 22px 28px;
