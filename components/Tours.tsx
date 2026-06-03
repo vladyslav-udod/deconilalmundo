@@ -1,190 +1,262 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useState, useMemo, useEffect, useCallback } from 'react'
-import type { Tour, TourSection, Region } from '@/types'
-import { MapPinOff } from '@/components/icons'
+import Image from "next/image";
+import Link from "next/link";
+import { useState, useMemo, useEffect, useCallback } from "react";
+import type { Tour, TourSection, Region } from "@/types";
+import { MapPinOff } from "@/components/icons";
 import {
   TRAVEL_TYPES,
   TRAVEL_TYPE_VALUES,
   travelTypeValueFromLabel,
   buildMonthOptions,
   monthKey,
-} from '@/lib/taxonomy'
+} from "@/lib/taxonomy";
 
-const REGION_LABELS: Record<Region | 'todos', string> = {
-  todos: 'Todas',
-  europa: 'Europa',
-  america: 'América',
-  asia: 'Asia',
-  africa: 'África',
-  oriente: 'Oriente Medio',
-  oceania: 'Oceanía',
-}
+const REGION_LABELS: Record<Region | "todos", string> = {
+  todos: "Todas",
+  europa: "Europa",
+  america: "América",
+  asia: "Asia",
+  africa: "África",
+  oriente: "Oriente Medio",
+  oceania: "Oceanía",
+};
 
-const MONTH_NAMES_SHORT = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+const MONTH_NAMES_SHORT = [
+  "ene",
+  "feb",
+  "mar",
+  "abr",
+  "may",
+  "jun",
+  "jul",
+  "ago",
+  "sep",
+  "oct",
+  "nov",
+  "dic",
+];
 
 const TYPE_LABEL: Record<string, string> = Object.fromEntries(
-  TRAVEL_TYPES.map((t) => [t.value, t.label])
-)
+  TRAVEL_TYPES.map((t) => [t.value, t.label]),
+);
 
 function formatDateRange(tour: Tour): { display: string; note: string } {
-  const start = new Date(tour.startDate + 'T00:00:00')
-  const startDay = start.getDate()
-  const startMonthName = MONTH_NAMES_SHORT[start.getMonth()]
-  const year = start.getFullYear()
+  const start = new Date(tour.startDate + "T00:00:00");
+  const startDay = start.getDate();
+  const startMonthName = MONTH_NAMES_SHORT[start.getMonth()];
+  const year = start.getFullYear();
 
   if (!tour.endDate) {
-    return { display: `Desde ${startDay} ${startMonthName}`, note: `Cierre por confirmar · ${year}` }
+    return {
+      display: `Desde ${startDay} ${startMonthName}`,
+      note: `Cierre por confirmar · ${year}`,
+    };
   }
 
-  const end = new Date(tour.endDate + 'T00:00:00')
-  const endDay = end.getDate()
-  const endMonthName = MONTH_NAMES_SHORT[end.getMonth()]
+  const end = new Date(tour.endDate + "T00:00:00");
+  const endDay = end.getDate();
+  const endMonthName = MONTH_NAMES_SHORT[end.getMonth()];
 
   if (start.getMonth() === end.getMonth()) {
-    return { display: `${startDay} — ${endDay} ${startMonthName}`, note: `${year}` }
+    return {
+      display: `${startDay} - ${endDay} ${startMonthName}`,
+      note: `${year}`,
+    };
   }
-  return { display: `${startDay} ${startMonthName} — ${endDay} ${endMonthName}`, note: `${year}` }
+  return {
+    display: `${startDay} ${startMonthName} - ${endDay} ${endMonthName}`,
+    note: `${year}`,
+  };
 }
 
 interface ToursProps {
-  tours: Tour[]
-  section: TourSection
+  tours: Tour[];
+  section: TourSection;
 }
 
-const VALID_REGIONS: Region[] = ['europa', 'america', 'asia', 'africa', 'oriente', 'oceania']
+const VALID_REGIONS: Region[] = [
+  "europa",
+  "america",
+  "asia",
+  "africa",
+  "oriente",
+  "oceania",
+];
 
 /** Custom event other components fire to reset the filters (e.g. "Ver próximos viajes"). */
-export const TOURS_RESET_EVENT = 'tours:reset'
+export const TOURS_RESET_EVENT = "tours:reset";
 /** Event to apply a specific filter set (e.g. "Explorar" cards) without navigating. */
-export const TOURS_APPLY_EVENT = 'tours:apply'
+export const TOURS_APPLY_EVENT = "tours:apply";
 
 export interface ToursApplyDetail {
-  region?: Region | 'todos'
-  mes?: string
-  tipo?: string
+  region?: Region | "todos";
+  mes?: string;
+  tipo?: string;
 }
 
 export default function Tours({ tours, section }: ToursProps) {
   // Filters default to "todos" for SSR (so the section is fully server-rendered
   // and SEO-friendly); the URL is read on mount.
-  const [regionFilter, setRegionFilter] = useState<Region | 'todos'>('todos')
-  const [monthFilter, setMonthFilter] = useState<string>('todos')
-  const [typeFilter, setTypeFilter] = useState<string>('todos')
+  const [regionFilter, setRegionFilter] = useState<Region | "todos">("todos");
+  const [monthFilter, setMonthFilter] = useState<string>("todos");
+  const [typeFilter, setTypeFilter] = useState<string>("todos");
 
   // Month dropdown: current month + the following 6 months (with year).
   const monthOptions = useMemo(
-    () => [{ value: 'todos', label: 'Cualquier mes' }, ...buildMonthOptions(7)],
-    []
-  )
-  const validMonthValues = useMemo(() => new Set(monthOptions.map((m) => m.value)), [monthOptions])
+    () => [{ value: "todos", label: "Cualquier mes" }, ...buildMonthOptions(7)],
+    [],
+  );
+  const validMonthValues = useMemo(
+    () => new Set(monthOptions.map((m) => m.value)),
+    [monthOptions],
+  );
 
   // Which type filters actually have tours (so we don't show empty chips).
   const typeOptions = useMemo(() => {
     const present = new Set(
-      tours.map((t) => travelTypeValueFromLabel(t.typeTag)).filter(Boolean) as string[]
-    )
-    return TRAVEL_TYPES.filter((t) => present.has(t.value))
-  }, [tours])
+      tours
+        .map((t) => travelTypeValueFromLabel(t.typeTag))
+        .filter(Boolean) as string[],
+    );
+    return TRAVEL_TYPES.filter((t) => present.has(t.value));
+  }, [tours]);
 
   // Seed filters from the URL after hydration + react to back/forward nav and
   // to deep links like /?region=asia&tipo=mujeres#tours.
   useEffect(() => {
     const apply = () => {
-      const params = new URLSearchParams(window.location.search)
-      const r = params.get('region')
-      const m = params.get('mes')
-      const t = params.get('tipo')
-      setRegionFilter(r && VALID_REGIONS.includes(r as Region) ? (r as Region) : 'todos')
-      setMonthFilter(m && validMonthValues.has(m) ? m : 'todos')
-      setTypeFilter(t && TRAVEL_TYPE_VALUES.includes(t) ? t : 'todos')
-    }
-    apply()
+      const params = new URLSearchParams(window.location.search);
+      const r = params.get("region");
+      const m = params.get("mes");
+      const t = params.get("tipo");
+      setRegionFilter(
+        r && VALID_REGIONS.includes(r as Region) ? (r as Region) : "todos",
+      );
+      setMonthFilter(m && validMonthValues.has(m) ? m : "todos");
+      setTypeFilter(t && TRAVEL_TYPE_VALUES.includes(t) ? t : "todos");
+    };
+    apply();
     const reset = () => {
-      setRegionFilter('todos')
-      setMonthFilter('todos')
-      setTypeFilter('todos')
-      const params = new URLSearchParams(window.location.search)
-      params.delete('region'); params.delete('mes'); params.delete('tipo')
-      const qs = params.toString()
-      window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}`)
-    }
+      setRegionFilter("todos");
+      setMonthFilter("todos");
+      setTypeFilter("todos");
+      const params = new URLSearchParams(window.location.search);
+      params.delete("region");
+      params.delete("mes");
+      params.delete("tipo");
+      const qs = params.toString();
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${qs ? `?${qs}` : ""}`,
+      );
+    };
     const applyFromEvent = (e: Event) => {
-      const d = (e as CustomEvent<ToursApplyDetail>).detail ?? {}
-      const region = d.region && VALID_REGIONS.includes(d.region as Region) ? d.region : 'todos'
-      const mes = d.mes && validMonthValues.has(d.mes) ? d.mes : 'todos'
-      const tipo = d.tipo && TRAVEL_TYPE_VALUES.includes(d.tipo) ? d.tipo : 'todos'
-      setRegionFilter(region)
-      setMonthFilter(mes)
-      setTypeFilter(tipo)
-      const params = new URLSearchParams(window.location.search)
-      region === 'todos' ? params.delete('region') : params.set('region', region)
-      mes === 'todos' ? params.delete('mes') : params.set('mes', mes)
-      tipo === 'todos' ? params.delete('tipo') : params.set('tipo', tipo)
-      const qs = params.toString()
-      window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}#tours`)
-    }
-    window.addEventListener('popstate', apply)
-    window.addEventListener(TOURS_RESET_EVENT, reset)
-    window.addEventListener(TOURS_APPLY_EVENT, applyFromEvent as EventListener)
+      const d = (e as CustomEvent<ToursApplyDetail>).detail ?? {};
+      const region =
+        d.region && VALID_REGIONS.includes(d.region as Region)
+          ? d.region
+          : "todos";
+      const mes = d.mes && validMonthValues.has(d.mes) ? d.mes : "todos";
+      const tipo =
+        d.tipo && TRAVEL_TYPE_VALUES.includes(d.tipo) ? d.tipo : "todos";
+      setRegionFilter(region);
+      setMonthFilter(mes);
+      setTypeFilter(tipo);
+      const params = new URLSearchParams(window.location.search);
+      region === "todos"
+        ? params.delete("region")
+        : params.set("region", region);
+      mes === "todos" ? params.delete("mes") : params.set("mes", mes);
+      tipo === "todos" ? params.delete("tipo") : params.set("tipo", tipo);
+      const qs = params.toString();
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${qs ? `?${qs}` : ""}#tours`,
+      );
+    };
+    window.addEventListener("popstate", apply);
+    window.addEventListener(TOURS_RESET_EVENT, reset);
+    window.addEventListener(TOURS_APPLY_EVENT, applyFromEvent as EventListener);
     return () => {
-      window.removeEventListener('popstate', apply)
-      window.removeEventListener(TOURS_RESET_EVENT, reset)
-      window.removeEventListener(TOURS_APPLY_EVENT, applyFromEvent as EventListener)
-    }
-  }, [validMonthValues])
+      window.removeEventListener("popstate", apply);
+      window.removeEventListener(TOURS_RESET_EVENT, reset);
+      window.removeEventListener(
+        TOURS_APPLY_EVENT,
+        applyFromEvent as EventListener,
+      );
+    };
+  }, [validMonthValues]);
 
   // Reflect the current filters back into the URL (shallow, no navigation).
   const syncUrl = useCallback(
-    (region: Region | 'todos', month: string, type: string) => {
-      if (typeof window === 'undefined') return
-      const params = new URLSearchParams(window.location.search)
-      region === 'todos' ? params.delete('region') : params.set('region', region)
-      month === 'todos' ? params.delete('mes') : params.set('mes', month)
-      type === 'todos' ? params.delete('tipo') : params.set('tipo', type)
-      const qs = params.toString()
-      window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}#tours`)
+    (region: Region | "todos", month: string, type: string) => {
+      if (typeof window === "undefined") return;
+      const params = new URLSearchParams(window.location.search);
+      region === "todos"
+        ? params.delete("region")
+        : params.set("region", region);
+      month === "todos" ? params.delete("mes") : params.set("mes", month);
+      type === "todos" ? params.delete("tipo") : params.set("tipo", type);
+      const qs = params.toString();
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${qs ? `?${qs}` : ""}#tours`,
+      );
     },
-    []
-  )
+    [],
+  );
 
-  const changeRegion = (region: Region | 'todos') => {
-    setRegionFilter(region)
-    syncUrl(region, monthFilter, typeFilter)
-  }
+  const changeRegion = (region: Region | "todos") => {
+    setRegionFilter(region);
+    syncUrl(region, monthFilter, typeFilter);
+  };
   const changeMonth = (month: string) => {
-    setMonthFilter(month)
-    syncUrl(regionFilter, month, typeFilter)
-  }
+    setMonthFilter(month);
+    syncUrl(regionFilter, month, typeFilter);
+  };
   const changeType = (type: string) => {
-    setTypeFilter(type)
-    syncUrl(regionFilter, monthFilter, type)
-  }
+    setTypeFilter(type);
+    syncUrl(regionFilter, monthFilter, type);
+  };
 
   const filtered = useMemo(() => {
     return tours.filter((t) => {
-      const regionOk = regionFilter === 'todos' || t.region === regionFilter
-      const monthOk = monthFilter === 'todos' || monthKey(t.startDate) === monthFilter
-      const typeOk = typeFilter === 'todos' || travelTypeValueFromLabel(t.typeTag) === typeFilter
-      return regionOk && monthOk && typeOk
-    })
-  }, [tours, regionFilter, monthFilter, typeFilter])
+      const regionOk = regionFilter === "todos" || t.region === regionFilter;
+      const monthOk =
+        monthFilter === "todos" || monthKey(t.startDate) === monthFilter;
+      const typeOk =
+        typeFilter === "todos" ||
+        travelTypeValueFromLabel(t.typeTag) === typeFilter;
+      return regionOk && monthOk && typeOk;
+    });
+  }, [tours, regionFilter, monthFilter, typeFilter]);
 
   const regions = useMemo(() => {
-    const seen = new Set(tours.map((t) => t.region))
-    return ['todos', ...Object.keys(REGION_LABELS).filter((k) => k !== 'todos' && seen.has(k as Region))] as (Region | 'todos')[]
-  }, [tours])
+    const seen = new Set(tours.map((t) => t.region));
+    return [
+      "todos",
+      ...Object.keys(REGION_LABELS).filter(
+        (k) => k !== "todos" && seen.has(k as Region),
+      ),
+    ] as (Region | "todos")[];
+  }, [tours]);
 
-  const hasActiveFilters = regionFilter !== 'todos' || monthFilter !== 'todos' || typeFilter !== 'todos'
+  const hasActiveFilters =
+    regionFilter !== "todos" ||
+    monthFilter !== "todos" ||
+    typeFilter !== "todos";
 
   const resetFilters = () => {
-    setRegionFilter('todos')
-    setMonthFilter('todos')
-    setTypeFilter('todos')
-    syncUrl('todos', 'todos', 'todos')
-  }
+    setRegionFilter("todos");
+    setMonthFilter("todos");
+    setTypeFilter("todos");
+    syncUrl("todos", "todos", "todos");
+  };
 
   return (
     <section className="tours" id="tours" aria-labelledby="tours-heading">
@@ -199,16 +271,22 @@ export default function Tours({ tours, section }: ToursProps) {
         </div>
 
         {/* ── Filters ─────────────────────────────────────────────────────── */}
-        <div className="tours-filters" role="group" aria-label="Filtrar próximas salidas">
+        <div
+          className="tours-filters"
+          role="group"
+          aria-label="Filtrar próximas salidas"
+        >
           <div className="filter-group">
-            <label className="row-label" htmlFor="regionSelect">Región</label>
+            <label className="row-label" htmlFor="regionSelect">
+              Región
+            </label>
             {/* Desktop: chips. Mobile (≤1000px): a compact dropdown to save space. */}
             <div className="filter-chips">
               {regions.map((r) => (
                 <button
                   key={r}
                   type="button"
-                  className={`filter${regionFilter === r ? ' active' : ''}`}
+                  className={`filter${regionFilter === r ? " active" : ""}`}
                   onClick={() => changeRegion(r)}
                   aria-pressed={regionFilter === r}
                 >
@@ -220,11 +298,15 @@ export default function Tours({ tours, section }: ToursProps) {
               <select
                 id="regionSelect"
                 value={regionFilter}
-                onChange={(e) => changeRegion(e.target.value as Region | 'todos')}
+                onChange={(e) =>
+                  changeRegion(e.target.value as Region | "todos")
+                }
                 aria-label="Filtrar por región"
               >
                 {regions.map((r) => (
-                  <option key={r} value={r}>{r === 'todos' ? 'Todas las regiones' : REGION_LABELS[r]}</option>
+                  <option key={r} value={r}>
+                    {r === "todos" ? "Todas las regiones" : REGION_LABELS[r]}
+                  </option>
                 ))}
               </select>
             </div>
@@ -232,7 +314,9 @@ export default function Tours({ tours, section }: ToursProps) {
 
           {typeOptions.length > 0 && (
             <div className="filter-group">
-              <label className="row-label" htmlFor="typeSelect">Tipo de viaje</label>
+              <label className="row-label" htmlFor="typeSelect">
+                Tipo de viaje
+              </label>
               <div className="select-wrap">
                 <select
                   id="typeSelect"
@@ -242,7 +326,9 @@ export default function Tours({ tours, section }: ToursProps) {
                 >
                   <option value="todos">Todos los tipos</option>
                   {typeOptions.map((t) => (
-                    <option key={t.value} value={t.value}>{t.label}</option>
+                    <option key={t.value} value={t.value}>
+                      {t.label}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -250,7 +336,9 @@ export default function Tours({ tours, section }: ToursProps) {
           )}
 
           <div className="filter-group">
-            <label className="row-label" htmlFor="monthSelect">Salida</label>
+            <label className="row-label" htmlFor="monthSelect">
+              Salida
+            </label>
             <div className="select-wrap">
               <select
                 id="monthSelect"
@@ -259,14 +347,20 @@ export default function Tours({ tours, section }: ToursProps) {
                 aria-label="Filtrar por mes de salida"
               >
                 {monthOptions.map((m) => (
-                  <option key={m.value} value={m.value}>{m.label}</option>
+                  <option key={m.value} value={m.value}>
+                    {m.label}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
 
           {hasActiveFilters && (
-            <button type="button" className="filter-reset" onClick={resetFilters}>
+            <button
+              type="button"
+              className="filter-reset"
+              onClick={resetFilters}
+            >
               Limpiar filtros
             </button>
           )}
@@ -280,27 +374,37 @@ export default function Tours({ tours, section }: ToursProps) {
             <p className="tours-empty-text">
               No hay salidas para esta combinación de filtros.
             </p>
-            <button type="button" className="btn-primary tours-empty-btn" onClick={resetFilters}>
+            <button
+              type="button"
+              className="btn-primary tours-empty-btn"
+              onClick={resetFilters}
+            >
               <span>Limpiar filtros</span>
             </button>
           </div>
         ) : (
           <div className="tours-grid" role="list" aria-label="Próximas salidas">
             {filtered.map((tour) => {
-              const { display, note } = formatDateRange(tour)
-              const imgSrc = tour.imageUrl ?? `https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80`
-              const typeValue = travelTypeValueFromLabel(tour.typeTag)
+              const { display, note } = formatDateRange(tour);
+              const imgSrc =
+                tour.imageUrl ??
+                `https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80`;
+              const typeValue = travelTypeValueFromLabel(tour.typeTag);
 
               return (
                 <article key={tour._id} className="tour" role="listitem">
-                  <Link href={`/viajes/${tour.slug}`} prefetch aria-label={`${tour.title} — desde ${tour.price.toLocaleString('es-ES')} €`}>
+                  <Link
+                    href={`/viajes/${tour.slug}`}
+                    prefetch
+                    aria-label={`${tour.title} - desde ${tour.price.toLocaleString("es-ES")} €`}
+                  >
                     <div className="media">
                       <Image
                         src={imgSrc}
                         alt={`Viaje a ${tour.title}`}
                         fill
                         sizes="(max-width: 600px) 78vw, (max-width: 1000px) 45vw, 25vw"
-                        style={{ objectFit: 'cover' }}
+                        style={{ objectFit: "cover" }}
                         loading="lazy"
                       />
                       <div className="pill">{REGION_LABELS[tour.region]}</div>
@@ -309,29 +413,35 @@ export default function Tours({ tours, section }: ToursProps) {
                           {display}
                           <small>{note}</small>
                         </div>
+                        {tour.subtitle && (
+                          <small className="overlay-subtitle">
+                            {tour.subtitle}
+                          </small>
+                        )}
                       </div>
                     </div>
 
                     <div className="meta-row">
                       <div className="meta-main">
-                        <h3 className="tour-title">
-                          {tour.title}
-                          {tour.subtitle && <small>{tour.subtitle}</small>}
-                        </h3>
-                        {typeValue && <span className="tour-type">{TYPE_LABEL[typeValue]}</span>}
+                        <h3 className="tour-title">{tour.title}</h3>
+                        {typeValue && (
+                          <span className="tour-type">
+                            {TYPE_LABEL[typeValue]}
+                          </span>
+                        )}
                       </div>
                       <div className="price">
                         <em>desde</em>
-                        <strong>{tour.price.toLocaleString('es-ES')} €</strong>
+                        <strong>{tour.price.toLocaleString("es-ES")} €</strong>
                       </div>
                     </div>
                   </Link>
                 </article>
-              )
+              );
             })}
           </div>
         )}
       </div>
     </section>
-  )
+  );
 }

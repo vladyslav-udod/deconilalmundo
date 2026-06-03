@@ -773,39 +773,39 @@ const REGION_GATEWAY: Record<
   oceania: { code: "SYD", city: "Sídney", airline: "Emirates" },
 };
 
-function makeFallbackFlights(tour: Tour): import("@/types").Flight[] {
-  const g = REGION_GATEWAY[tour.region] ?? REGION_GATEWAY.asia;
-  return [
-    {
-      _key: "f1",
-      direction: "outbound",
-      airline: g.airline,
-      flightNumber: "XX1234",
-      fromCode: "MAD",
-      fromCity: "Madrid",
-      toCode: g.code,
-      toCity: g.city,
-      departTime: "10:30",
-      arriveTime: "06:15 (+1)",
-      duration: "12h 45m",
-      stops: "1 escala",
-    },
-    {
-      _key: "f2",
-      direction: "return",
-      airline: g.airline,
-      flightNumber: "XX1235",
-      fromCode: g.code,
-      fromCity: g.city,
-      toCode: "MAD",
-      toCity: "Madrid",
-      departTime: "23:50",
-      arriveTime: "09:20 (+1)",
-      duration: "13h 30m",
-      stops: "1 escala",
-    },
-  ];
-}
+// function makeFallbackFlights(tour: Tour): import("@/types").Flight[] {
+//   const g = REGION_GATEWAY[tour.region] ?? REGION_GATEWAY.asia;
+//   return [
+//     {
+//       _key: "f1",
+//       direction: "outbound",
+//       airline: g.airline,
+//       flightNumber: "XX1234",
+//       fromCode: "MAD",
+//       fromCity: "Madrid",
+//       toCode: g.code,
+//       toCity: g.city,
+//       departTime: "10:30",
+//       arriveTime: "06:15 (+1)",
+//       duration: "12h 45m",
+//       stops: "1 escala",
+//     },
+//     {
+//       _key: "f2",
+//       direction: "return",
+//       airline: g.airline,
+//       flightNumber: "XX1235",
+//       fromCode: g.code,
+//       fromCity: g.city,
+//       toCode: "MAD",
+//       toCity: "Madrid",
+//       departTime: "23:50",
+//       arriveTime: "09:20 (+1)",
+//       duration: "13h 30m",
+//       stops: "1 escala",
+//     },
+//   ];
+// }
 
 function makeFallbackItinerary(tour: Tour): import("@/types").ItineraryDay[] {
   const days = tour.duration ?? tourDuration(tour.startDate, tour.endDate) ?? 1;
@@ -867,7 +867,7 @@ function makeFallbackDetail(tour: Tour): TourDetail {
             },
           ]),
     ],
-    flights: makeFallbackFlights(tour),
+    flights: [],
     contactName: "María José Pérez",
     contactRole: "Halcón Viajes Conil",
     contactInitials: "MJ",
@@ -951,8 +951,7 @@ export async function getTourBySlug(slug: string): Promise<TourDetail | null> {
         },
       ];
     }
-    if (!withCard.flights?.length)
-      withCard.flights = makeFallbackFlights(raw as Tour);
+    if (!withCard.flights?.length) withCard.flights = [];
     if (!withCard.itinerary?.length)
       withCard.itinerary = makeFallbackItinerary(raw as Tour);
 

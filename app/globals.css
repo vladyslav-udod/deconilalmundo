@@ -298,10 +298,13 @@ button {
   color: var(--ink);
   letter-spacing: -0.01em;
 }
-.nav-reservar {
+.btn-primary.nav-reservar {
   padding: 10px 20px;
   font-size: 12px;
   letter-spacing: 0.1em;
+  box-shadow: none;
+}
+.btn-primary.nav-reservar:hover {
   box-shadow: 0 8px 20px rgba(43, 122, 138, 0.3);
 }
 
@@ -1278,9 +1281,19 @@ h2.display em {
   padding: 18px 18px 16px 18px;
   color: #fff;
   display: flex;
-  align-items: flex-end;
   justify-content: space-between;
+  flex-direction: column;
   gap: 14px;
+}
+
+.tour .overlay-subtitle {
+  display: none;
+}
+.tour:hover .overlay {
+  background: linear-gradient(transparent, var(--dark-bg-2) 95%);
+}
+.tour:hover .overlay-subtitle {
+  display: block;
 }
 
 .tour .overlay .dates {
