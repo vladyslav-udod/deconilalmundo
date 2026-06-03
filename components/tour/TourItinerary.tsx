@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { TourDetail } from "@/types";
 
@@ -78,10 +78,22 @@ export default function TourItinerary({ tour }: TourItineraryProps) {
               .split("\n")
               .map((s) => s.trim())
               .filter(Boolean);
-            const lead = lines.length > 1 ? lines[0] : day.body;
-            const bullets = lines.length > 1 ? lines.slice(1) : [];
+            // const bullets = lines.length > 1 ? lines.slice(1) : [];
+            const lead = day.body;
             const img = day.imageUrl;
             const tags = day.tags ?? [];
+
+            const [isTwoColBody, setIsTwoColBody] = useState(false);
+
+            useEffect(() => {
+              const handleResize = () => {
+                setIsTwoColBody(!!(img && window.innerWidth >= 1000));
+              };
+
+              handleResize();
+              window.addEventListener("resize", handleResize);
+              return () => window.removeEventListener("resize", handleResize);
+            }, [img]);
 
             return (
               <div key={day._key} className={`day${isOpen ? " open" : ""}`}>
@@ -125,33 +137,28 @@ export default function TourItinerary({ tour }: TourItineraryProps) {
                     <div
                       className="body"
                       style={{
-                        gridTemplateColumns: img ? "1fr 1.05fr" : "1fr",
+                        gridTemplateColumns: isTwoColBody
+                          ? "1fr 1.05fr"
+                          : "1fr",
                       }}
                     >
-                      <div>
-                        {lead && (
-                          <p
-                            style={{
-                              maxWidth: img ? "52ch" : "none",
-                              paddingRight: img ? 0 : "46px",
-                            }}
-                          >
-                            {lead}
-                          </p>
-                        )}
-                        {bullets.length > 0 && (
-                          <ul className="pts">
-                            {bullets.map((pt, j) => (
-                              <li key={j}>
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                  <path d="M20 6 9 17l-5-5" />
-                                </svg>
-                                {pt}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
+                      {/* add br */}
+                      {lead && (
+                        <p
+                          style={{
+                            maxWidth: "none",
+                            paddingRight: isTwoColBody ? 0 : "46px",
+                          }}
+                        >
+                          {lines.map((line, index) => (
+                            <div key={index} style={{ marginTop: "16px" }}>
+                              {line}
+                              <br />
+                            </div>
+                          ))}
+                        </p>
+                      )}
+
                       {img && (
                         <div className="ph">
                           <Image
