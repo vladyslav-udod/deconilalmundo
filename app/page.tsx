@@ -11,7 +11,6 @@ import {
   getTestimonials,
   getCtaSection,
 } from '@/lib/sanity/queries'
-import { getInstagramPosts } from '@/lib/instagram'
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
 import Tours from '@/components/Tours'
@@ -19,7 +18,7 @@ import TiposDeViaje from '@/components/TiposDeViaje'
 import Intro from '@/components/Intro'
 import About from '@/components/About'
 import Testimonials from '@/components/Testimonials'
-import InstagramFeed from '@/components/InstagramFeed'
+import SocialFollow from '@/components/SocialFollow'
 import CTAFinal from '@/components/CTAFinal'
 import Footer from '@/components/Footer'
 import WhatsAppFAB from '@/components/WhatsAppFAB'
@@ -41,7 +40,6 @@ export default async function HomePage() {
     testimonialSection,
     testimonials,
     cta,
-    instagramPosts,
   ] = await Promise.all([
     getSiteSettings(),
     getHeroSection(),
@@ -54,7 +52,6 @@ export default async function HomePage() {
     getTestimonialSection(),
     getTestimonials(),
     getCtaSection(),
-    getInstagramPosts(6),
   ])
 
   return (
@@ -68,7 +65,7 @@ export default async function HomePage() {
         <Intro data={intro} />
         <About data={about} />
         <Testimonials section={testimonialSection} testimonials={testimonials} />
-        <InstagramFeed profileUrl={settings.instagram} posts={instagramPosts} />
+        <SocialFollow instagramUrl={settings.instagram} facebookUrl={settings.facebook} />
         <CTAFinal data={cta} />
       </main>
 

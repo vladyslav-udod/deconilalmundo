@@ -230,7 +230,7 @@
 .tp .book-card .price-row .lab { font-family: var(--font-roboto), sans-serif; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); font-weight: 500 }
 .tp .book-card .price-row .amt { display: flex; flex-direction: column; align-items: flex-end; line-height: 1; gap: 5px }
 .tp .book-card .price-row .amt em { font-style: normal; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 500 }
-.tp .book-card .price-row .amt strong { font-family: var(--font-roboto), sans-serif; font-size: 38px; font-weight: 600; color: var(--price); letter-spacing: -0.01em; line-height: .9 }
+.tp .book-card .price-row .amt strong { font-family: var(--font-roboto), sans-serif; font-size: 38px; font-weight: 600; color: var(--accent); letter-spacing: -0.01em; line-height: .9 }
 .tp .book-card .price-row .amt small { font-size: 11px; color: var(--muted) }
 .tp .book-card .cta { padding: 0 22px 22px }
 .tp .book-card .cta .btn-primary { width: 100%; justify-content: center; padding: 17px }
@@ -316,7 +316,7 @@
 .tp .badge.few::before { background: var(--price) }
 .tp .badge.soon { background: rgba(95, 110, 116, .14); color: var(--muted) }
 .tp .badge.soon::before { background: var(--muted) }
-.tp .date-row .pr { font-family: var(--font-roboto), sans-serif; font-weight: 600; font-size: 24px; color: var(--ink); letter-spacing: -0.01em }
+.tp .date-row .pr { font-family: var(--font-roboto), sans-serif; font-weight: 600; font-size: 24px; color: var(--accent); letter-spacing: -0.01em }
 .tp .date-row .pr small { display: block; font-family: var(--font-roboto), sans-serif; font-weight: 400; font-size: 11px; letter-spacing: .04em; color: var(--muted); margin-top: 3px }
 .tp .date-row .go { justify-self: end }
 .tp .date-note { margin: 20px 2px 0; font-size: 13px; color: var(--muted); max-width: 60ch }
@@ -379,6 +379,7 @@
   justify-content: center;
   padding: 0 24px 24px;
   min-height: 0;
+  touch-action: pan-y;
 }
 .tp-lightbox .lb-img {
   max-width: min(1100px, 92vw);
@@ -388,6 +389,9 @@
   object-fit: contain;
   border-radius: 6px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
+  transition: transform 0.18s ease;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .tp-lightbox .lb-nav {
   position: absolute;
@@ -433,10 +437,34 @@
   .tp .booking { position: static; flex-direction: row; flex-wrap: wrap }
   .tp .book-card, .tp .advisor { flex: 1 1 320px }
 }
+@media (max-width: 1000px) {
+  /* Gallery must never exceed the viewport width (no horizontal scroll) */
+  .tp .stage { min-width: 0 }
+  .tp .gallery {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr;
+    aspect-ratio: auto;
+    min-height: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  .tp .gallery .g {
+    min-width: 0;
+    aspect-ratio: 4/3;
+  }
+  .tp .gallery .g.feat {
+    grid-row: 1;
+    grid-column: 1 / 3;
+    aspect-ratio: 16/10;
+  }
+}
+@media (max-width: 1000px) {
+  /* On touch screens, swipe replaces the arrow buttons */
+  .tp-lightbox .lb-nav { display: none }
+  .tp-lightbox .lb-stage { padding: 0 12px 16px }
+}
 @media (max-width: 880px) {
   .tp .tp-wrap { padding: 0 22px }
-  .tp .gallery { grid-template-columns: 1fr 1fr; aspect-ratio: 4/3 }
-  .tp .gallery .g.feat { grid-row: 1; grid-column: 1/3 }
   .tp .day .body { grid-template-columns: 1fr; padding-left: 6px }
   .tp .day .thumb { display: none }
   .tp .incl-grid { grid-template-columns: 1fr }

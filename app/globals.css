@@ -301,14 +301,17 @@ button {
   background: var(--paper);
   color: var(--ink);
   border-left: 1px solid var(--line);
-  box-shadow: -20px 0 50px rgba(12, 32, 39, 0.18);
   transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s ease;
   display: flex;
   align-items: center;
   padding: 80px 36px 36px;
 }
-.nav-drawer.is-open { transform: translateX(0) }
+/* Shadow only when open — off-screen its blur was bleeding onto the right edge */
+.nav-drawer.is-open {
+  transform: translateX(0);
+  box-shadow: -20px 0 50px rgba(12, 32, 39, 0.18);
+}
 .nav-drawer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; width: 100% }
 .nav-drawer a {
   display: block;
@@ -720,6 +723,53 @@ h2.display em {
 /* ─── Tipos de viaje ─────────────────────────────────────────────────────────── */
 .types {
   background: var(--bg);
+  position: relative;
+}
+
+/* Loading overlay shown while "Explorar" applies filters + scrolls */
+.types-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: rgba(233, 236, 237, 0.86);
+  backdrop-filter: blur(4px);
+  animation: typesFade 0.2s ease;
+}
+
+@keyframes typesFade {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+.types-spinner {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid var(--accent-soft);
+  border-top-color: var(--accent);
+  animation: typesSpin 0.8s linear infinite;
+}
+
+@keyframes typesSpin {
+  to { transform: rotate(360deg) }
+}
+
+.types-loading-text {
+  font-family: var(--font-roboto), sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .types-spinner { animation-duration: 1.6s }
 }
 
 .types .head {
@@ -888,6 +938,11 @@ h2.display em {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+/* Region-as-dropdown is only used on small screens (see ≤1000px); chips on desktop */
+.select-wrap.select-region {
+  display: none;
 }
 
 .filter-reset {
@@ -1103,22 +1158,6 @@ h2.display em {
   z-index: 2;
 }
 
-/* Travel-type tag shown in the bottom overlay (replaces the old duration tag) */
-.tour .tag-type {
-  font-family: var(--font-roboto), sans-serif;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-weight: 700;
-  padding: 7px 12px;
-  background: var(--accent);
-  color: #fff;
-  border-radius: 999px;
-  white-space: nowrap;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(12, 32, 39, 0.28);
-}
-
 .tour .overlay {
   position: absolute;
   left: 0;
@@ -1170,9 +1209,25 @@ h2.display em {
 .tour .meta-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 18px;
   gap: 16px;
+}
+
+.tour .meta-main {
+  min-width: 0;
+}
+
+/* Travel-type label shown below the tour title */
+.tour-type {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: var(--font-roboto), sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent-deep);
 }
 
 .tour-title {
@@ -1219,7 +1274,7 @@ h2.display em {
 .tour .price strong {
   font-family: var(--font-roboto), sans-serif;
   font-size: 27px;
-  color: var(--price);
+  color: var(--accent);
   font-weight: 600;
   letter-spacing: 0;
   font-feature-settings: 'tnum';
@@ -1441,104 +1496,126 @@ h2.display em {
 }
 
 /* ─── Instagram feed ─────────────────────────────────────────────────────────── */
-.ig {
+/* ─── Síguenos en redes ──────────────────────────────────────────────────────── */
+.social {
   background: var(--paper);
   border-top: 1px solid var(--line);
   padding: 110px 40px;
 }
 
-.ig-head {
+.social-head {
   text-align: center;
-  margin-bottom: 48px;
+  max-width: 640px;
+  margin: 0 auto 48px auto;
 }
 
-.ig-head h2 {
+.social-head h2 {
   margin-bottom: 18px;
 }
 
-.ig-handle {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-roboto), sans-serif;
+.social-sub {
+  color: var(--muted);
   font-size: 16px;
-  letter-spacing: 0.04em;
-  font-weight: 600;
-  color: var(--accent);
-  text-transform: uppercase;
+  line-height: 1.6;
+  margin: 0;
 }
 
-.ig-handle svg {
-  width: 20px;
-  height: 20px;
-  stroke: var(--accent);
-  fill: none;
-  stroke-width: 1.8;
-}
-
-.ig-handle:hover {
-  color: var(--accent-deep);
-}
-
-.ig-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
-  max-width: 1320px;
+.social-cards {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  max-width: 760px;
   margin: 0 auto;
 }
 
-.ig-item {
-  position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 8px;
-  background: var(--line);
-  isolation: isolate;
+.social-card {
+  flex: 1 1 320px;
+  max-width: 360px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 26px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--bg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.ig-item img {
-  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+.social-card:hover {
+  transform: translateY(-3px);
+  border-color: transparent;
+  box-shadow: 0 16px 40px rgba(12, 32, 39, 0.12);
 }
 
-.ig-item:hover img {
-  transform: scale(1.08);
-}
-
-.ig-hover {
-  position: absolute;
-  inset: 0;
+.social-icon {
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(43, 122, 138, 0.55);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  color: #fff;
 }
 
-.ig-item:hover .ig-hover {
-  opacity: 1;
-}
-
-.ig-hover svg {
-  width: 32px;
-  height: 32px;
-  stroke: #fff;
-  fill: none;
-  stroke-width: 1.6;
-}
-
-.ig-cta {
-  text-align: center;
-  margin-top: 44px;
-}
-
-.ig-cta .btn-primary svg {
-  width: 18px;
-  height: 18px;
+.social-icon svg {
+  width: 26px;
+  height: 26px;
   stroke: currentColor;
   fill: none;
   stroke-width: 1.8;
+}
+
+.social-card--instagram .social-icon {
+  background: linear-gradient(135deg, #f58529, #dd2a7b 55%, #8134af 100%);
+}
+
+.social-card--facebook .social-icon {
+  background: #1877f2;
+}
+
+.social-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  margin-right: auto;
+}
+
+.social-name {
+  font-family: var(--font-roboto), sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.social-handle {
+  font-size: 14px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.social-cta {
+  flex-shrink: 0;
+  font-family: var(--font-roboto), sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent-deep);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 16px;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.social-card:hover .social-cta {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 /* ─── Cookie banner ──────────────────────────────────────────────────────────── */
@@ -2047,9 +2124,8 @@ script[type='application/ld+json'] {
     display: none;
   }
 
-  /* Keep the price visible next to the burger on the tour bar, drop the CTA. */
-  .nav.show-booking .nav-booking { position: static; transform: none }
-  .nav-booking .nav-reservar { display: none }
+  /* Hide the tour price + Reservar strip in the bar on phones/tablets. */
+  .nav-booking { display: none }
 
   section {
     padding: 80px 24px;
@@ -2070,29 +2146,70 @@ script[type='application/ld+json'] {
     gap: 40px;
   }
 
-  .ig {
+  .social {
     padding: 80px 24px;
   }
 
-  .ig-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .social-cards {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .types-grid,
-  .testi-grid {
+  .social-card {
+    max-width: none;
+  }
+
+  .types-grid {
     grid-template-columns: 1fr;
   }
 
-  .tours-grid {
-    gap: 20px;
+  /* Reviews are hidden on phones/tablets */
+  .testi-grid {
+    display: none;
   }
 
+  /* Region filter switches from chips to a compact dropdown to save space */
+  .filter-chips {
+    display: none;
+  }
+  .select-wrap.select-region {
+    display: flex;
+  }
+
+  .tours-grid {
+    gap: 14px;
+  }
+
+  /* Smaller tour cards so it reads as a scrollable rail on phones */
   .tour {
-    flex-basis: calc((100% - 20px) / 2);
+    flex-basis: 70%;
+    max-width: 280px;
+  }
+  .tour .media {
+    aspect-ratio: 3/4;
+  }
+  .tour-title {
+    font-size: 18px;
+  }
+  .tour .price strong {
+    font-size: 22px;
   }
 
   .about {
     padding: 80px 24px;
+  }
+
+  /* Keep the stats grid inside the container (no horizontal scroll) */
+  .stats {
+    margin-top: 36px;
+  }
+  .stat {
+    padding: 26px 20px;
+    min-width: 0;
+  }
+  .stat .n {
+    font-size: clamp(34px, 11vw, 48px);
+    overflow-wrap: anywhere;
   }
 
   .footer-grid {
@@ -2108,10 +2225,6 @@ script[type='application/ld+json'] {
 @media (max-width: 600px) {
   .footer-grid {
     grid-template-columns: 1fr;
-  }
-
-  .ig-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .tours .head {
@@ -2141,6 +2254,7 @@ script[type='application/ld+json'] {
   }
 
   .tour {
-    flex-basis: 78%;
+    flex-basis: 64%;
+    max-width: 240px;
   }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 
 interface GalleryImage {
@@ -29,6 +29,34 @@ export default function TourGallery({ images }: TourGalleryProps) {
   const close = useCallback(() => setOpen(false), [])
   const prev = useCallback(() => setIndex((i) => (i - 1 + total) % total), [total])
   const next = useCallback(() => setIndex((i) => (i + 1) % total), [total])
+
+  // Touch swipe: horizontal → prev/next, vertical → close.
+  const touch = useRef<{ x: number; y: number } | null>(null)
+  const [drag, setDrag] = useState(0)
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0]
+    touch.current = { x: t.clientX, y: t.clientY }
+  }
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!touch.current) return
+    setDrag(e.touches[0].clientX - touch.current.x)
+  }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!touch.current) return
+    const t = e.changedTouches[0]
+    const dx = t.clientX - touch.current.x
+    const dy = t.clientY - touch.current.y
+    touch.current = null
+    setDrag(0)
+    const SWIPE = 50
+    if (Math.abs(dx) > Math.abs(dy)) {
+      if (dx <= -SWIPE) next()
+      else if (dx >= SWIPE) prev()
+    } else if (Math.abs(dy) >= 70) {
+      close()
+    }
+  }
 
   useEffect(() => {
     if (!open) return
@@ -105,7 +133,13 @@ export default function TourGallery({ images }: TourGalleryProps) {
           </button>
         </div>
 
-        <div className="lb-stage" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="lb-stage"
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {total > 1 && (
             <button type="button" className="lb-nav lb-prev" onClick={prev} aria-label="Foto anterior">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -116,7 +150,13 @@ export default function TourGallery({ images }: TourGalleryProps) {
 
           {/* Plain img: lightbox sources are full-bleed, no layout sizing needed */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="lb-img" src={images[index].url} alt={images[index].alt} />
+          <img
+            className="lb-img"
+            src={images[index].url}
+            alt={images[index].alt}
+            style={drag ? { transform: `translateX(${drag}px)` } : undefined}
+            draggable={false}
+          />
 
           {total > 1 && (
             <button type="button" className="lb-nav lb-next" onClick={next} aria-label="Foto siguiente">

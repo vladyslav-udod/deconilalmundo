@@ -58,6 +58,14 @@ const VALID_REGIONS: Region[] = ['europa', 'america', 'asia', 'africa', 'oriente
 
 /** Custom event other components fire to reset the filters (e.g. "Ver próximos viajes"). */
 export const TOURS_RESET_EVENT = 'tours:reset'
+/** Event to apply a specific filter set (e.g. "Explorar" cards) without navigating. */
+export const TOURS_APPLY_EVENT = 'tours:apply'
+
+export interface ToursApplyDetail {
+  region?: Region | 'todos'
+  mes?: string
+  tipo?: string
+}
 
 export default function Tours({ tours, section }: ToursProps) {
   // Filters default to "todos" for SSR (so the section is fully server-rendered
@@ -103,11 +111,28 @@ export default function Tours({ tours, section }: ToursProps) {
       const qs = params.toString()
       window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}`)
     }
+    const applyFromEvent = (e: Event) => {
+      const d = (e as CustomEvent<ToursApplyDetail>).detail ?? {}
+      const region = d.region && VALID_REGIONS.includes(d.region as Region) ? d.region : 'todos'
+      const mes = d.mes && validMonthValues.has(d.mes) ? d.mes : 'todos'
+      const tipo = d.tipo && TRAVEL_TYPE_VALUES.includes(d.tipo) ? d.tipo : 'todos'
+      setRegionFilter(region)
+      setMonthFilter(mes)
+      setTypeFilter(tipo)
+      const params = new URLSearchParams(window.location.search)
+      region === 'todos' ? params.delete('region') : params.set('region', region)
+      mes === 'todos' ? params.delete('mes') : params.set('mes', mes)
+      tipo === 'todos' ? params.delete('tipo') : params.set('tipo', tipo)
+      const qs = params.toString()
+      window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}#tours`)
+    }
     window.addEventListener('popstate', apply)
     window.addEventListener(TOURS_RESET_EVENT, reset)
+    window.addEventListener(TOURS_APPLY_EVENT, applyFromEvent as EventListener)
     return () => {
       window.removeEventListener('popstate', apply)
       window.removeEventListener(TOURS_RESET_EVENT, reset)
+      window.removeEventListener(TOURS_APPLY_EVENT, applyFromEvent as EventListener)
     }
   }, [validMonthValues])
 
@@ -176,7 +201,8 @@ export default function Tours({ tours, section }: ToursProps) {
         {/* ── Filters ─────────────────────────────────────────────────────── */}
         <div className="tours-filters" role="group" aria-label="Filtrar próximas salidas">
           <div className="filter-group">
-            <span className="row-label">Región</span>
+            <label className="row-label" htmlFor="regionSelect">Región</label>
+            {/* Desktop: chips. Mobile (≤1000px): a compact dropdown to save space. */}
             <div className="filter-chips">
               {regions.map((r) => (
                 <button
@@ -189,6 +215,18 @@ export default function Tours({ tours, section }: ToursProps) {
                   {REGION_LABELS[r]}
                 </button>
               ))}
+            </div>
+            <div className="select-wrap select-region">
+              <select
+                id="regionSelect"
+                value={regionFilter}
+                onChange={(e) => changeRegion(e.target.value as Region | 'todos')}
+                aria-label="Filtrar por región"
+              >
+                {regions.map((r) => (
+                  <option key={r} value={r}>{r === 'todos' ? 'Todas las regiones' : REGION_LABELS[r]}</option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -271,15 +309,17 @@ export default function Tours({ tours, section }: ToursProps) {
                           {display}
                           <small>{note}</small>
                         </div>
-                        {typeValue && <div className="tag-type">{TYPE_LABEL[typeValue]}</div>}
                       </div>
                     </div>
 
                     <div className="meta-row">
-                      <h3 className="tour-title">
-                        {tour.title}
-                        {tour.subtitle && <small>{tour.subtitle}</small>}
-                      </h3>
+                      <div className="meta-main">
+                        <h3 className="tour-title">
+                          {tour.title}
+                          {tour.subtitle && <small>{tour.subtitle}</small>}
+                        </h3>
+                        {typeValue && <span className="tour-type">{TYPE_LABEL[typeValue]}</span>}
+                      </div>
                       <div className="price">
                         <em>desde</em>
                         <strong>{tour.price.toLocaleString('es-ES')} €</strong>

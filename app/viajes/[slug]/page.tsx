@@ -9,13 +9,12 @@ import {
   getTestimonials,
   getCtaSection,
 } from '@/lib/sanity/queries'
-import { getInstagramPosts } from '@/lib/instagram'
 
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import WhatsAppFAB from '@/components/WhatsAppFAB'
 import Testimonials from '@/components/Testimonials'
-import InstagramFeed from '@/components/InstagramFeed'
+import SocialFollow from '@/components/SocialFollow'
 import CTAFinal from '@/components/CTAFinal'
 
 import TourHero from '@/components/tour/TourHero'
@@ -69,16 +68,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function TourPage({ params }: PageProps) {
   const { slug } = await params
 
-  const [tour, settings, testimonialSection, testimonials, cta, instagramPosts] = await Promise.all([
+  const [tour, settings, testimonialSection, testimonials, cta] = await Promise.all([
     getTourBySlug(slug),
     getSiteSettings(),
     getTestimonialSection(),
     getTestimonials(),
     getCtaSection(),
-    getInstagramPosts(6),
   ])
 
   if (!tour) notFound()
+
+  // Pre-filled WhatsApp message for the topbar "Reservar".
+  const reserveMessage =
+    `Hola, me interesa reservar el viaje a ${tour.title}` +
+    (tour.subtitle ? ` (${tour.subtitle})` : '') +
+    `. ¿Me dais más información?`
+  const reserveUrl = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(reserveMessage)}`
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://deconilalmundo.es'
   const tourJsonLd = {
@@ -116,6 +121,7 @@ export default async function TourPage({ params }: PageProps) {
           title: tour.title,
           meta: tour.duration ? `${tour.duration} días` : tour.title,
           price: tour.price,
+          reserveUrl,
         }}
       />
 
@@ -125,13 +131,13 @@ export default async function TourPage({ params }: PageProps) {
           <TourHero tour={tour} settings={settings} />
           <TourItinerary tour={tour} />
           <TourIncludes tour={tour} />
-          <TourDepartures tour={tour} />
+          <TourDepartures tour={tour} settings={settings} />
           <TourFlights tour={tour} />
         </div>
 
         {/* ── Shared main-page sections ─────────────────────────────────── */}
         <Testimonials section={testimonialSection} testimonials={testimonials} />
-        <InstagramFeed profileUrl={settings.instagram} posts={instagramPosts} />
+        <SocialFollow instagramUrl={settings.instagram} facebookUrl={settings.facebook} />
         <CTAFinal data={cta} />
       </main>
 

@@ -1,7 +1,27 @@
-import type { TourDetail, Availability } from '@/types'
+import type { TourDetail, Availability, SiteSettings } from '@/types'
 
 interface TourDeparturesProps {
   tour: TourDetail
+  settings: Pick<SiteSettings, 'whatsappNumber'>
+}
+
+const MONTHS_FULL = [
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
+]
+
+function longDate(dateStr: string): string {
+  const d = new Date(dateStr + 'T00:00:00')
+  return `${d.getDate()} de ${MONTHS_FULL[d.getMonth()]} de ${d.getFullYear()}`
+}
+
+/** WhatsApp deep link with a message pre-filled for the selected departure. */
+function whatsappLink(whatsappNumber: string, tour: TourDetail, dateStr: string): string {
+  const msg =
+    `Hola, me interesa el viaje a ${tour.title}` +
+    (tour.subtitle ? ` (${tour.subtitle})` : '') +
+    ` con salida el ${longDate(dateStr)}. ¿Me dais más información?`
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`
 }
 
 const MONTHS_ES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
@@ -30,7 +50,7 @@ const AVAIL: Record<Availability, { label: string; cls: string }> = {
   full: { label: 'Completo', cls: 'soon' },
 }
 
-export default function TourDepartures({ tour }: TourDeparturesProps) {
+export default function TourDepartures({ tour, settings }: TourDeparturesProps) {
   const departures = tour.departures ?? []
   if (departures.length === 0) return null
 
@@ -67,7 +87,12 @@ export default function TourDepartures({ tour }: TourDeparturesProps) {
                 </div>
                 <div className="go">
                   {!full && (
-                    <a href="#reservar" className="btn-primary sm">
+                    <a
+                      href={whatsappLink(settings.whatsappNumber, tour, dep.date)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-primary sm"
+                    >
                       <span>Reservar</span>
                     </a>
                   )}

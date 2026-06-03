@@ -8,6 +8,8 @@ export interface TourBarInfo {
   title: string
   meta: string
   price: number
+  /** Where "Reservar" goes (e.g. a WhatsApp deep link). Defaults to #reservar. */
+  reserveUrl?: string
 }
 
 interface NavProps {
@@ -102,7 +104,11 @@ export default function Nav({ settings, forceSolid = false, tourBar }: NavProps)
                 <em>Desde</em>
                 <strong>{tourBar.price.toLocaleString('es-ES')}€</strong>
               </div>
-              <a href="#reservar" className="btn-primary nav-reservar">
+              <a
+                href={tourBar.reserveUrl ?? '#reservar'}
+                {...(tourBar.reserveUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className="btn-primary nav-reservar"
+              >
                 <span>Reservar</span>
               </a>
             </div>
@@ -138,7 +144,12 @@ export default function Nav({ settings, forceSolid = false, tourBar }: NavProps)
           ))}
           {tourBar && (
             <li>
-              <a href="#reservar" onClick={closeAnd()} className="drawer-cta">
+              <a
+                href={tourBar.reserveUrl ?? '#reservar'}
+                {...(tourBar.reserveUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                onClick={closeAnd()}
+                className="drawer-cta"
+              >
                 Reservar — desde {tourBar.price.toLocaleString('es-ES')}€
               </a>
             </li>
