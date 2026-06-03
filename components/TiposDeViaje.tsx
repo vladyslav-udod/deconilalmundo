@@ -1,51 +1,53 @@
-'use client'
+"use client";
 
-import { useState, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
-import type { TravelType, TravelTypeSection } from '@/types'
-import { ArrowRight } from '@/components/icons'
-import { travelTypeValueFromTitle } from '@/lib/taxonomy'
-import { TOURS_APPLY_EVENT, type ToursApplyDetail } from '@/components/Tours'
+import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import type { TravelType, TravelTypeSection } from "@/types";
+import { ArrowRight } from "@/components/icons";
+import { travelTypeValueFromTitle } from "@/lib/taxonomy";
+import { TOURS_APPLY_EVENT, type ToursApplyDetail } from "@/components/Tours";
 
 interface TiposDeViajeProps {
-  section: TravelTypeSection
-  types: TravelType[]
+  section: TravelTypeSection;
+  types: TravelType[];
 }
 
 export default function TiposDeViaje({ section, types }: TiposDeViajeProps) {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const explore = useCallback(
     (typeValue: string | undefined, href: string) => (e: React.MouseEvent) => {
       // On the home page, apply the filter in place (no navigation) with a brief
       // loading overlay; elsewhere, fall back to a normal navigation.
-      const tours = document.getElementById('tours')
+      const tours = document.getElementById("tours");
       if (!tours || !typeValue) {
         // Not on the home page (or no mappable type) → let the link navigate,
         // but still show the overlay so the wait feels intentional.
-        setLoading(true)
+        setLoading(true);
         if (!tours) {
-          e.preventDefault()
-          router.push(href)
+          e.preventDefault();
+          router.push(href);
         }
-        return
+        return;
       }
 
-      e.preventDefault()
-      setLoading(true)
+      e.preventDefault();
+      setLoading(true);
       // Defer the (potentially heavy) filter + scroll so the overlay paints first.
       requestAnimationFrame(() => {
         window.dispatchEvent(
-          new CustomEvent<ToursApplyDetail>(TOURS_APPLY_EVENT, { detail: { tipo: typeValue } })
-        )
-        tours.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          new CustomEvent<ToursApplyDetail>(TOURS_APPLY_EVENT, {
+            detail: { tipo: typeValue },
+          }),
+        );
+        tours.scrollIntoView({ behavior: "smooth", block: "start" });
         // Hide the overlay once the smooth scroll has had time to run.
-        window.setTimeout(() => setLoading(false), 650)
-      })
+        window.setTimeout(() => setLoading(false), 650);
+      });
     },
-    [router]
-  )
+    [router],
+  );
 
   return (
     <section className="types" id="tipos" aria-labelledby="tipos-heading">
@@ -69,13 +71,22 @@ export default function TiposDeViaje({ section, types }: TiposDeViajeProps) {
 
         <div className="types-grid" role="list">
           {types.map((type) => {
-            const imgSrc = type.imageUrl ?? 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80'
+            const imgSrc =
+              type.imageUrl ??
+              "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80";
             // "Explorar" pre-filters Próximas salidas by this travel type.
-            const typeValue = travelTypeValueFromTitle(type.title)
-            const href = type.ctaHref ?? (typeValue ? `/?tipo=${typeValue}#tours` : '/#tours')
+            const typeValue = travelTypeValueFromTitle(type.title);
+            const href =
+              type.ctaHref ??
+              (typeValue ? `/?tipo=${typeValue}#tours` : "/#tours");
 
             return (
-              <article key={type._id} className="type-card" role="listitem">
+              <article
+                key={type._id}
+                className="type-card"
+                role="listitem"
+                onClick={explore(typeValue, href)}
+              >
                 {/* Background via CSS for these decorative full-bleed images; Unsplash CDN handles format optimisation */}
                 <div
                   className="bg"
@@ -89,17 +100,16 @@ export default function TiposDeViaje({ section, types }: TiposDeViajeProps) {
                 <a
                   href={href}
                   className="more"
-                  aria-label={`${type.ctaText ?? 'Explorar'} — ${type.title}`}
-                  onClick={explore(typeValue, href)}
+                  aria-label={`${type.ctaText ?? "Explorar"} — ${type.title}`}
                 >
-                  {type.ctaText ?? 'Explorar'}
+                  {type.ctaText ?? "Explorar"}
                   <ArrowRight />
                 </a>
               </article>
-            )
+            );
           })}
         </div>
       </div>
     </section>
-  )
+  );
 }

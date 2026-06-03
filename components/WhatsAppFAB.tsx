@@ -1,12 +1,12 @@
-import type { SiteSettings } from '@/types'
-import { WhatsApp } from '@/components/icons'
+import type { SiteSettings } from "@/types";
+import { WhatsApp } from "@/components/icons";
 
 interface WhatsAppFABProps {
-  settings: Pick<SiteSettings, 'whatsappNumber' | 'whatsappMessage'>
+  settings: Pick<SiteSettings, "whatsappNumber" | "whatsappMessage">;
 }
 
 export default function WhatsAppFAB({ settings }: WhatsAppFABProps) {
-  const url = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(settings.whatsappMessage)}`
+  const url = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(settings.whatsappMessage)}`;
 
   return (
     <a
@@ -23,5 +23,5 @@ export default function WhatsAppFAB({ settings }: WhatsAppFABProps) {
         <WhatsApp />
       </span>
     </a>
-  )
+  );
 }
