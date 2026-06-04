@@ -131,13 +131,14 @@ export const tourType = defineType({
     defineField({
       name: "typeTag",
       title: "Tipo de viaje",
-      type: "string",
+      type: "array",
+      of: [{ type: "string" }],
       group: "basic",
       description:
         'Una de las "Seis formas de vivirlo". Se muestra en la tarjeta y permite filtrar en "Próximas salidas".',
       options: {
         list: TYPE_OPTIONS,
-        layout: "dropdown",
+        layout: "grid",
       },
     }),
     defineField({

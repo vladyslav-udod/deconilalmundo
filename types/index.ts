@@ -24,7 +24,7 @@ export interface Tour {
   month?: string;
   startDate: string;
   /** Travel type label from "Seis formas de vivirlo" (matches TRAVEL_TYPES). */
-  typeTag?: string;
+  typeTag?: string[];
   endDate?: string;
   /** Duration in days. Derived from startDate/endDate — not stored in the CMS. */
   duration?: number;

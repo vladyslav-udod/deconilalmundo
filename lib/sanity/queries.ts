@@ -116,7 +116,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80",
     order: 1,
-    typeTag: "Circuitos internacionales",
+    typeTag: ["Circuitos internacionales"],
   },
   {
     _id: "2",
@@ -132,7 +132,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?auto=format&fit=crop&w=1200&q=80",
     order: 2,
-    typeTag: "Viajes en grupo",
+    typeTag: ["Viajes en grupo"],
   },
   {
     _id: "3",
@@ -148,7 +148,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1200&q=80",
     order: 3,
-    typeTag: "Viajes en grupo",
+    typeTag: ["Viajes en grupo"],
   },
   {
     _id: "4",
@@ -164,7 +164,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=1200&q=80",
     order: 4,
-    typeTag: "Escapadas especiales",
+    typeTag: ["Escapadas especiales"],
   },
   {
     _id: "5",
@@ -180,7 +180,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1200&q=80",
     order: 5,
-    typeTag: "Viajes para solteros",
+    typeTag: ["Viajes para solteros"],
   },
   {
     _id: "6",
@@ -196,7 +196,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=80",
     order: 6,
-    typeTag: "Viajes en grupo",
+    typeTag: ["Viajes en grupo"],
   },
   {
     _id: "7",
@@ -212,7 +212,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1200&q=80",
     order: 7,
-    typeTag: "Circuitos internacionales",
+    typeTag: ["Circuitos internacionales"],
   },
   {
     _id: "8",
@@ -228,7 +228,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1200&q=80",
     order: 8,
-    typeTag: "Viajes en grupo",
+    typeTag: ["Viajes en grupo"],
   },
   {
     _id: "9",
@@ -243,7 +243,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?auto=format&fit=crop&w=1200&q=80",
     order: 9,
-    typeTag: "Circuitos internacionales",
+    typeTag: ["Circuitos internacionales"],
   },
   {
     _id: "10",
@@ -259,7 +259,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80",
     order: 10,
-    typeTag: "Viajes en grupo",
+    typeTag: ["Viajes en grupo"],
   },
   {
     _id: "11",
@@ -275,7 +275,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80",
     order: 11,
-    typeTag: "Circuitos internacionales",
+    typeTag: ["Circuitos internacionales"],
   },
   {
     _id: "12",
@@ -291,7 +291,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1200&q=80",
     order: 12,
-    typeTag: "Viajes para mujeres",
+    typeTag: ["Viajes para mujeres"],
   },
   {
     _id: "13",
@@ -307,7 +307,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80",
     order: 13,
-    typeTag: "Viajes para solteros",
+    typeTag: ["Viajes para solteros"],
   },
   {
     _id: "14",
@@ -322,7 +322,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?auto=format&fit=crop&w=1200&q=80",
     order: 14,
-    typeTag: "Experiencias a medida",
+    typeTag: ["Experiencias a medida"],
   },
   {
     _id: "15",
@@ -337,7 +337,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80",
     order: 15,
-    typeTag: "Viajes en grupo",
+    typeTag: ["Viajes en grupo"],
   },
   {
     _id: "16",
@@ -353,7 +353,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1589909202802-8f4aadce1849?auto=format&fit=crop&w=1200&q=80",
     order: 16,
-    typeTag: "Circuitos internacionales",
+    typeTag: ["Circuitos internacionales"],
   },
   {
     _id: "17",
@@ -369,7 +369,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1200&q=80",
     order: 17,
-    typeTag: "Viajes en grupo",
+    typeTag: ["Viajes en grupo"],
   },
   {
     _id: "18",
@@ -385,7 +385,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1508804052814-cd3ba865a116?auto=format&fit=crop&w=1200&q=80",
     order: 18,
-    typeTag: "Circuitos internacionales",
+    typeTag: ["Circuitos internacionales"],
   },
   {
     _id: "19",
@@ -400,7 +400,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?auto=format&fit=crop&w=1200&q=80",
     order: 19,
-    typeTag: "Viajes para mujeres",
+    typeTag: ["Viajes para mujeres"],
   },
   {
     _id: "20",
@@ -416,7 +416,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=80",
     order: 20,
-    typeTag: "Viajes en grupo",
+    typeTag: ["Viajes en grupo"],
   },
   {
     _id: "21",
@@ -431,7 +431,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80",
     order: 21,
-    typeTag: "Circuitos internacionales",
+    typeTag: ["Circuitos internacionales"],
   },
   {
     _id: "22",
@@ -447,7 +447,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1200&q=80",
     order: 22,
-    typeTag: "Escapadas especiales",
+    typeTag: ["Escapadas especiales"],
   },
   {
     _id: "23",
@@ -463,7 +463,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1504829857797-ddff29c27927?auto=format&fit=crop&w=1200&q=80",
     order: 23,
-    typeTag: "Escapadas especiales",
+    typeTag: ["Escapadas especiales"],
   },
   {
     _id: "24",
@@ -479,7 +479,7 @@ const FALLBACK_TOURS: Tour[] = [
     imageUrl:
       "https://images.unsplash.com/photo-1525874684015-58379d421a52?auto=format&fit=crop&w=1200&q=80",
     order: 24,
-    typeTag: "Viajes en grupo",
+    typeTag: ["Viajes en grupo"],
   },
 ];
 

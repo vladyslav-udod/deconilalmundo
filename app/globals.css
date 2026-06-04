@@ -1342,16 +1342,19 @@ h2.display em {
   min-width: 0;
 }
 
+.tour .meta-main .tour-type:first-child {
+  margin-top: 10px;
+}
+
 /* Travel-type label shown below the tour title */
 .tour-type {
   display: inline-block;
-  margin-top: 10px;
   font-family: var(--font-roboto), sans-serif;
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--accent-deep);
+  color: var(--muted);
 }
 
 .tour-title {

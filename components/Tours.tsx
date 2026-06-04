@@ -117,7 +117,8 @@ export default function Tours({ tours, section }: ToursProps) {
   const typeOptions = useMemo(() => {
     const present = new Set(
       tours
-        .map((t) => travelTypeValueFromLabel(t.typeTag))
+        .flatMap((t) => t.typeTag)
+        .map((tag) => travelTypeValueFromLabel(tag))
         .filter(Boolean) as string[],
     );
     return TRAVEL_TYPES.filter((t) => present.has(t.value));
@@ -231,7 +232,11 @@ export default function Tours({ tours, section }: ToursProps) {
         monthFilter === "todos" || monthKey(t.startDate) === monthFilter;
       const typeOk =
         typeFilter === "todos" ||
-        travelTypeValueFromLabel(t.typeTag) === typeFilter;
+        (t.typeTag &&
+          Array.isArray(t.typeTag) &&
+          t.typeTag.some(
+            (tag) => travelTypeValueFromLabel(tag) === typeFilter,
+          ));
       return regionOk && monthOk && typeOk;
     });
   }, [tours, regionFilter, monthFilter, typeFilter]);
@@ -389,7 +394,10 @@ export default function Tours({ tours, section }: ToursProps) {
               const imgSrc =
                 tour.imageUrl ??
                 `https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80`;
-              const typeValue = travelTypeValueFromLabel(tour.typeTag);
+              const typeValue =
+                tour.typeTag && Array.isArray(tour.typeTag)
+                  ? tour.typeTag.map((i) => travelTypeValueFromLabel(i))
+                  : null;
 
               return (
                 <article key={tour._id} className="tour" role="listitem">
@@ -424,11 +432,15 @@ export default function Tours({ tours, section }: ToursProps) {
                     <div className="meta-row">
                       <div className="meta-main">
                         <h3 className="tour-title">{tour.title}</h3>
-                        {typeValue && (
-                          <span className="tour-type">
-                            {TYPE_LABEL[typeValue]}
-                          </span>
-                        )}
+                        {typeValue &&
+                          typeValue.map(
+                            (t, i) =>
+                              t && (
+                                <span className="tour-type" key={i}>
+                                  {TYPE_LABEL[t]}
+                                </span>
+                              ),
+                          )}
                       </div>
                       <div className="price">
                         <em>desde</em>
