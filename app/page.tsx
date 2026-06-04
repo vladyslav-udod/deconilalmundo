@@ -26,9 +26,14 @@ import WhatsAppFAB from "@/components/WhatsAppFAB";
 // ISR: revalidate every 60 seconds — keeps the page fast while CMS changes propagate quickly
 export const revalidate = 60;
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ region?: string; mes?: string; tipo?: string }>;
+}) {
   // Fetch all data in parallel
   const [
+    sp,
     settings,
     hero,
     tourSection,
@@ -41,6 +46,7 @@ export default async function HomePage() {
     testimonials,
     cta,
   ] = await Promise.all([
+    await searchParams,
     getSiteSettings(),
     getHeroSection(),
     getTourSection(),
@@ -60,7 +66,15 @@ export default async function HomePage() {
 
       <main id="main">
         <Hero data={hero} />
-        <Tours tours={tours} section={tourSection} />
+        <Tours
+          tours={tours}
+          section={tourSection}
+          initialFilters={{
+            region: sp.region ?? "todos",
+            mes: sp.mes ?? "todos",
+            tipo: sp.tipo ?? "todos",
+          }}
+        />
         <TiposDeViaje section={travelTypeSection} types={travelTypes} />
         <Intro data={intro} />
         <About data={about} />

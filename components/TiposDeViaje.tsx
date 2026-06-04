@@ -6,6 +6,7 @@ import type { TravelType, TravelTypeSection } from "@/types";
 import { ArrowRight } from "@/components/icons";
 import { travelTypeValueFromTitle } from "@/lib/taxonomy";
 import { TOURS_APPLY_EVENT, type ToursApplyDetail } from "@/components/Tours";
+import LoadingTours from "./LoadingTours";
 
 interface TiposDeViajeProps {
   section: TravelTypeSection;
@@ -51,12 +52,7 @@ export default function TiposDeViaje({ section, types }: TiposDeViajeProps) {
 
   return (
     <section className="types" id="tipos" aria-labelledby="tipos-heading">
-      {loading && (
-        <div className="types-loading" role="status" aria-live="polite">
-          <span className="types-spinner" aria-hidden="true" />
-          <span className="types-loading-text">Cargando viajes…</span>
-        </div>
-      )}
+      {loading && <LoadingTours />}
 
       <div className="wrap">
         <div className="head">

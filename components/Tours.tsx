@@ -72,11 +72,6 @@ function formatDateRange(tour: Tour): { display: string; note: string } {
   };
 }
 
-interface ToursProps {
-  tours: Tour[];
-  section: TourSection;
-}
-
 const VALID_REGIONS: Region[] = [
   "europa",
   "america",
@@ -97,12 +92,30 @@ export interface ToursApplyDetail {
   tipo?: string;
 }
 
-export default function Tours({ tours, section }: ToursProps) {
+export interface ToursProps {
+  tours: Tour[];
+  section: TourSection;
+  initialFilters: { region: string; mes: string; tipo: string };
+}
+
+export default function Tours({ tours, section, initialFilters }: ToursProps) {
   // Filters default to "todos" for SSR (so the section is fully server-rendered
   // and SEO-friendly); the URL is read on mount.
-  const [regionFilter, setRegionFilter] = useState<Region | "todos">("todos");
-  const [monthFilter, setMonthFilter] = useState<string>("todos");
-  const [typeFilter, setTypeFilter] = useState<string>("todos");
+  const initRegion = VALID_REGIONS.includes(initialFilters.region as Region)
+    ? (initialFilters.region as Region)
+    : "todos";
+  const initType = TRAVEL_TYPE_VALUES.includes(initialFilters.tipo)
+    ? initialFilters.tipo
+    : "todos";
+
+  const [regionFilter, setRegionFilter] = useState<Region | "todos">(
+    initRegion,
+  );
+  const [typeFilter, setTypeFilter] = useState<string>(initType);
+  const [monthFilter, setMonthFilter] = useState<string>(() => {
+    const valid = new Set(buildMonthOptions(7).map((m) => m.value));
+    return valid.has(initialFilters.mes) ? initialFilters.mes : "todos";
+  });
 
   // Month dropdown: current month + the following 6 months (with year).
   const monthOptions = useMemo(
