@@ -232,11 +232,58 @@ export const tourType = defineType({
             }),
             defineField({
               name: "body",
-              title: "Descripción",
-              type: "text",
-              rows: 4,
-              description:
-                "La primera línea es la introducción; las siguientes líneas se muestran como lista de puntos.",
+              title: "Descripción detallada",
+              type: "array",
+              description: "Descripción detallada de la jornada.",
+              of: [
+                {
+                  type: "block",
+                  styles: [
+                    { title: "Normal", value: "normal" },
+                    { title: "Cita", value: "blockquote" },
+                  ],
+                  lists: [
+                    { title: "Viñeta", value: "bullet" },
+                    { title: "Numerada", value: "number" },
+                  ],
+                  marks: {
+                    decorators: [
+                      { title: "Negrita", value: "strong" },
+                      { title: "Cursiva", value: "em" },
+                      { title: "Subrayado", value: "underline" },
+                    ],
+                    annotations: [
+                      {
+                        name: "link",
+                        type: "object",
+                        title: "Enlace",
+                        fields: [
+                          { name: "href", type: "url", title: "URL" },
+                          {
+                            name: "blank",
+                            type: "boolean",
+                            title: "Abrir en una pestaña nueva",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                },
+                // {
+                //   type: "image",
+                //   options: { hotspot: true },
+                //   fields: [
+                //     { name: "alt", type: "string", title: "Alt text" },
+                //     { name: "caption", type: "string", title: "Caption" },
+                //   ],
+                // },
+                // {
+                //   type: "object",
+                //   name: "videoEmbed",
+                //   title: "Video",
+                //   fields: [{ name: "url", type: "url", title: "Video URL" }],
+                // },
+              ],
             }),
             defineField({
               name: "image",

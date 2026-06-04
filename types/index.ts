@@ -1,3 +1,5 @@
+import { PortableTextBlock } from "next-sanity";
+
 export type Region =
   | "america"
   | "asia"
@@ -40,7 +42,7 @@ export interface ItineraryDay {
   _key: string;
   dayLabel: string;
   title: string;
-  body?: string;
+  body?: PortableTextBlock[] | string;
   tags?: string[];
   image?: SanityImage;
   imageUrl?: string;

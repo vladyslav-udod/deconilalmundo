@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { TourDetail } from "@/types";
+import { PortableText, PortableTextBlock } from "next-sanity";
 
 // Placeholder images per region for fallback itinerary thumbnails
 const ITINERARY_PLACEHOLDERS = [
@@ -74,12 +75,6 @@ export default function TourItinerary({ tour }: TourItineraryProps) {
         <div className="iti-list">
           {days.map((day, i) => {
             const isOpen = openIndex === i;
-            const lines = (day.body ?? "")
-              .split("\n")
-              .map((s) => s.trim())
-              .filter(Boolean);
-            // const bullets = lines.length > 1 ? lines.slice(1) : [];
-            const lead = day.body;
             const img = day.imageUrl;
             const tags = day.tags ?? [];
 
@@ -142,21 +137,12 @@ export default function TourItinerary({ tour }: TourItineraryProps) {
                           : "1fr",
                       }}
                     >
-                      {/* add br */}
-                      {lead && (
-                        <p
-                          style={{
-                            maxWidth: "none",
-                            paddingRight: isTwoColBody ? 0 : "46px",
-                          }}
-                        >
-                          {lines.map((line, index) => (
-                            <div key={index} style={{ marginTop: "16px" }}>
-                              {line}
-                              <br />
-                            </div>
-                          ))}
-                        </p>
+                      {day.body && (
+                        <div className="portableText-wrap">
+                          <PortableText
+                            value={day.body as PortableTextBlock[]}
+                          />
+                        </div>
                       )}
 
                       {img && (
