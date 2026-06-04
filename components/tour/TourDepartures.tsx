@@ -33,7 +33,7 @@ function whatsappLink(
 ): string {
   const msg =
     `Hola, me interesa el viaje a ${tour.title}` +
-    (tour.subtitle ? ` (${tour.subtitle})` : "") +
+    (tour.startDate ? ` (${tour.startDate})` : "") +
     ` con salida el ${longDate(dateStr)}. ¿Me dais más información?`;
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
 }

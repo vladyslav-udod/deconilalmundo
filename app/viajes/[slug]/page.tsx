@@ -88,7 +88,7 @@ export default async function TourPage({ params }: PageProps) {
   // Pre-filled WhatsApp message for the topbar "Reservar".
   const reserveMessage =
     `Hola, me interesa reservar el viaje a ${tour.title}` +
-    (tour.subtitle ? ` (${tour.subtitle})` : "") +
+    (tour.startDate ? ` (${tour.startDate})` : "") +
     `. ¿Me dais más información?`;
   const reserveUrl = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(reserveMessage)}`;
 
