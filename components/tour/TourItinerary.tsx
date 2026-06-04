@@ -142,7 +142,6 @@ export default function TourItinerary({ tour }: TourItineraryProps) {
                           className="portableText-wrap"
                           style={{
                             maxWidth: "none",
-                            paddingRight: isTwoColBody ? 0 : "46px",
                           }}
                         >
                           <PortableText
