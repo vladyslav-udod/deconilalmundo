@@ -22,6 +22,7 @@ import TourItinerary from "@/components/tour/TourItinerary";
 import TourIncludes from "@/components/tour/TourIncludes";
 import TourDepartures from "@/components/tour/TourDepartures";
 import TourFlights from "@/components/tour/TourFlights";
+import TourInfo from "@/components/tour/TourInfo";
 
 export const revalidate = 60;
 
@@ -138,6 +139,7 @@ export default async function TourPage({ params }: PageProps) {
           <TourHero tour={tour} settings={settings} />
           <TourItinerary tour={tour} />
           <TourIncludes tour={tour} />
+          <TourInfo tour={tour} />
           <TourDepartures tour={tour} settings={settings} />
           {tour.flights?.length ? <TourFlights tour={tour} /> : null}
         </div>

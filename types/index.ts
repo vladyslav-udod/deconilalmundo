@@ -76,6 +76,7 @@ export interface TourDetail extends Tour {
   includes?: string[];
   excludes?: string[];
   importantInfo?: string[];
+  deposit?: { paymentDescription: string; paymentAmount: string }[];
   departures?: Departure[];
   flights?: Flight[];
   contactName?: string;

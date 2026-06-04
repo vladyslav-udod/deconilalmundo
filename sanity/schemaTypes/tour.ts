@@ -287,6 +287,42 @@ export const tourType = defineType({
       of: [{ type: "string" }],
     }),
     defineField({
+      name: "deposit",
+      title: "Depósito",
+      type: "array",
+      group: "detail",
+      description:
+        "Cantidad a pagar en el momento de la reserva. Si el depósito varía según la fecha de salida, indícalo en el campo 'Fechas de salida con disponibilidad'.",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "paymentDescription",
+              title: "Descripción",
+              type: "string",
+              description:
+                "Ej: 'A la hora de hacer la reserva', 'Antes del 29/05/2026'…",
+            }),
+            defineField({
+              name: "paymentAmount",
+              title: "Cantidad (€)",
+              description:
+                "Cantidad del depósito en euros. Ej: '100', 'El resto'…",
+              type: "string",
+            }),
+          ],
+          preview: {
+            select: { title: "paymentDescription", subtitle: "paymentAmount" },
+            prepare: ({ title, subtitle }) => ({
+              title,
+              subtitle: subtitle != null ? `${subtitle} €` : "",
+            }),
+          },
+        },
+      ],
+    }),
+    defineField({
       name: "departures",
       title: "Fechas de salida con disponibilidad",
       type: "array",

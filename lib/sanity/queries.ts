@@ -895,6 +895,7 @@ export async function getTourBySlug(slug: string): Promise<TourDetail | null> {
           _key, dayLabel, title, body, tags, image
         },
         includes, excludes,
+        importantInfo, deposit,
         "departures": departures[] {
           _key, date, availability, price
         },
