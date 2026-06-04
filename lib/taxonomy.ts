@@ -119,5 +119,5 @@ export function tourDuration(
   const end = new Date(endDate + "T00:00:00");
   const ms = end.getTime() - start.getTime();
   if (Number.isNaN(ms) || ms < 0) return undefined;
-  return Math.round(ms / 86_400_000);
+  return Math.round(ms / 86_400_000) + 1;
 }
