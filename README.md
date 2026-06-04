@@ -1,25 +1,22 @@
-# CODING AGENTS: READ THIS FIRST
+### Travel agency website project
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+This project is a travel agency website based in Conil, Spain. The website provides information about the various travel tours organized from Conil. Users can filter available tours by region, date and type. The website dynamically fetches content from Sanity CMS, allowing for easy updates and management of tour information, images, and other content.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Tech Stack
 
-## What you should do — IMPORTANT
+- **Frontend Framework**: Next.js 15.3.2 with React 19.0.0
+- **Styling**: styled-components 6.1.19
+- **CMS**: Sanity 3.99.0 with next-sanity 9.12.0
+- **Content Management**:
+  - @sanity/client 7.12.0
+  - @sanity/vision 3.99.0
+  - @sanity/locale-es-es 1.2.34
+- **Image Optimization**: @sanity/image-url 1.1.0
+- **Rich Text Rendering**: @portabletext/react 3.1.0
+- **DOM Rendering**: react-dom 19.0.0
 
-**Read the chat transcripts first.** There are 2 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Features
 
-**Read `project/De Conil al Mundo.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
-
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
-
-## About the design files
-
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
-
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
-
-## Bundle contents
-
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Conil travel agency` project files (HTML prototypes, assets, components)
+- **Filters**: Users can filter available tours by region, date and type. Selected filters are stored in the URL query parameters, allowing for easy sharing of filtered results. Filter values displayed based on actual data from Sanity CMS, ensuring that users can only select valid options.
+- **Dynamic Content**: The website dynamically fetches content from Sanity CMS, allowing for easy updates and management of tour information, images, and other content.
+- **Responsive Design**: The website is designed to be responsive, providing an optimal viewing experience across a wide range of devices, from desktop computers to mobile phones.

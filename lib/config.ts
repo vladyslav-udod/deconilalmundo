@@ -7,5 +7,6 @@
  *
  * Can be overridden at build time with NEXT_PUBLIC_SHOW_COOKIE_BANNER=true.
  */
+// TODO: update when the Google Analytics is added
 export const SHOW_COOKIE_BANNER =
-  process.env.NEXT_PUBLIC_SHOW_COOKIE_BANNER === 'true' ? true : false
+  process.env.NEXT_PUBLIC_SHOW_COOKIE_BANNER === "true" ? true : false;
