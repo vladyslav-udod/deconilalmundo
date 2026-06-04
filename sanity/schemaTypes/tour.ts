@@ -316,7 +316,7 @@ export const tourType = defineType({
             select: { title: "paymentDescription", subtitle: "paymentAmount" },
             prepare: ({ title, subtitle }) => ({
               title,
-              subtitle: subtitle != null ? `${subtitle} €` : "",
+              subtitle: subtitle != null ? `${subtitle}` : "",
             }),
           },
         },
