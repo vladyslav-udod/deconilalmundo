@@ -10,7 +10,7 @@ export default function WhatsAppFAB({ settings, tour }: WhatsAppFABProps) {
   const url = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(
     tour
       ? `Hola, me interesa reservar el viaje a ${tour.title}${
-          tour.subtitle ? ` (${tour.subtitle})` : ""
+          tour.startDate ? ` (${tour.startDate})` : ""
         }. ¿Me dais más información?`
       : settings.whatsappMessage,
   )}`;
