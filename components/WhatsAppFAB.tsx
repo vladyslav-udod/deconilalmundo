@@ -1,12 +1,19 @@
-import type { SiteSettings } from "@/types";
+import type { SiteSettings, TourDetail } from "@/types";
 import { WhatsApp } from "@/components/icons";
 
 interface WhatsAppFABProps {
   settings: Pick<SiteSettings, "whatsappNumber" | "whatsappMessage">;
+  tour?: TourDetail;
 }
 
-export default function WhatsAppFAB({ settings }: WhatsAppFABProps) {
-  const url = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(settings.whatsappMessage)}`;
+export default function WhatsAppFAB({ settings, tour }: WhatsAppFABProps) {
+  const url = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(
+    tour
+      ? `Hola, me interesa reservar el viaje a ${tour.title}${
+          tour.subtitle ? ` (${tour.subtitle})` : ""
+        }. ¿Me dais más información?`
+      : settings.whatsappMessage,
+  )}`;
 
   return (
     <a

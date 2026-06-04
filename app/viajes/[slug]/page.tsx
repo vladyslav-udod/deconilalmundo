@@ -157,7 +157,7 @@ export default async function TourPage({ params }: PageProps) {
       </main>
 
       <Footer settings={settings} />
-      <WhatsAppFAB settings={settings} />
+      <WhatsAppFAB settings={settings} tour={tour} />
     </>
   );
 }
