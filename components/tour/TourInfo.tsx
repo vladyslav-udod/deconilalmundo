@@ -81,7 +81,7 @@ export default function TourInfo({ tour }: TourItineraryProps) {
         <div className="head">
           <div className="section-label">Antes de reservar</div>
           <h2 className="display">
-            Forma de pago e <em>información</em>
+            Información y <em>forma de pago</em>
           </h2>
         </div>
 
