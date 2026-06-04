@@ -11,6 +11,7 @@ import {
   travelTypeValueFromLabel,
   buildMonthOptions,
   monthKey,
+  tourDuration,
 } from "@/lib/taxonomy";
 
 const REGION_LABELS: Record<Region | "todos", string> = {
@@ -420,6 +421,9 @@ export default function Tours({ tours, section }: ToursProps) {
                         <div className="dates">
                           {display}
                           <small>{note}</small>
+                        </div>
+                        <div className="pill -duration">
+                          {tourDuration(tour.startDate, tour.endDate)} días
                         </div>
                         {tour.subtitle && (
                           <small className="overlay-subtitle">
