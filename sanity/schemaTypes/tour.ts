@@ -445,7 +445,7 @@ export const tourType = defineType({
       type: "string",
       group: "contact",
       description: "Persona de contacto que aparece en la tarjeta de reserva.",
-      initialValue: "María José Pérez",
+      initialValue: "ROCÍO TRUJILLO AMAYA",
     }),
     defineField({
       name: "contactRole",
@@ -462,7 +462,7 @@ export const tourType = defineType({
       group: "contact",
       description:
         "Se muestran en el círculo del avatar cuando no hay foto. Ej: MJ.",
-      initialValue: "MJ",
+      initialValue: "RT",
       validation: (r) => r.max(3),
     }),
     defineField({
@@ -471,6 +471,7 @@ export const tourType = defineType({
       type: "string",
       group: "contact",
       description: "Teléfono de contacto para este viaje.",
+      initialValue: "+34 667 06 80 85",
     }),
     defineField({
       name: "contactInstagram",
