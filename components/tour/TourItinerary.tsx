@@ -138,7 +138,13 @@ export default function TourItinerary({ tour }: TourItineraryProps) {
                       }}
                     >
                       {day.body && (
-                        <div className="portableText-wrap">
+                        <div
+                          className="portableText-wrap"
+                          style={{
+                            maxWidth: "none",
+                            paddingRight: isTwoColBody ? 0 : "46px",
+                          }}
+                        >
                           <PortableText
                             value={day.body as PortableTextBlock[]}
                           />
