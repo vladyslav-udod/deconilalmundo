@@ -306,9 +306,9 @@ export const tourType = defineType({
             }),
             defineField({
               name: "paymentAmount",
-              title: "Cantidad (€)",
+              title: "Cantidad",
               description:
-                "Cantidad del depósito en euros. Ej: '100', 'El resto'…",
+                "Cantidad del depósito en euros. Ej: '100€', 'El resto'…",
               type: "string",
             }),
           ],
