@@ -85,27 +85,14 @@ export default function TourInfo({ tour }: TourItineraryProps) {
           </h2>
         </div>
 
-        <div className="incl-grid">
-          {tour.deposit && (
-            <div className="incl-col yes">
-              <h3>
-                <span className="ic">
-                  <CardIcon />
-                </span>
-                Forma de pago
-              </h3>
-              <ul>
-                {tour.deposit?.map((p, i) => (
-                  <PaymentRow
-                    key={i}
-                    when={p.paymentDescription}
-                    amount={p.paymentAmount}
-                  />
-                ))}
-              </ul>
-            </div>
-          )}
-
+        <div
+          className="incl-grid"
+          style={
+            tour.deposit && tour.importantInfo
+              ? {}
+              : { gridTemplateColumns: "1fr" }
+          }
+        >
           {tour.importantInfo && (
             <div className="incl-col no">
               <h3>
@@ -122,6 +109,26 @@ export default function TourInfo({ tour }: TourItineraryProps) {
                     </svg>
                     {note}
                   </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {tour.deposit && (
+            <div className="incl-col yes">
+              <h3>
+                <span className="ic">
+                  <CardIcon />
+                </span>
+                Forma de pago
+              </h3>
+              <ul>
+                {tour.deposit?.map((p, i) => (
+                  <PaymentRow
+                    key={i}
+                    when={p.paymentDescription}
+                    amount={p.paymentAmount}
+                  />
                 ))}
               </ul>
             </div>

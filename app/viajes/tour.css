@@ -679,6 +679,7 @@
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 34px 34px 30px;
+  height: fit-content;
 }
 .tp .incl-col h3 {
   display: flex;
