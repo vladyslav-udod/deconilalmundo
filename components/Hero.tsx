@@ -1,63 +1,58 @@
-'use client'
+"use client";
 
-import { useCallback } from 'react'
-import type { HeroSection } from '@/types'
-import { ArrowDown, ChevronDown } from '@/components/icons'
+import { useCallback } from "react";
+import Image from "next/image";
+import type { HeroSection } from "@/types";
+import { ArrowDown, ChevronDown } from "@/components/icons";
 
 interface HeroProps {
-  data: HeroSection
+  data: HeroSection;
 }
 
-// Keep phrases like "Más de 58 países" from wrapping awkwardly onto a new row.
-const NOWRAP_PHRASES = [/Más de \d+ países/g]
-
-function renderLede(text: string): React.ReactNode {
-  let parts: React.ReactNode[] = [text]
-  for (const re of NOWRAP_PHRASES) {
-    const next: React.ReactNode[] = []
-    parts.forEach((part) => {
-      if (typeof part !== 'string') {
-        next.push(part)
-        return
-      }
-      let last = 0
-      let m: RegExpExecArray | null
-      re.lastIndex = 0
-      while ((m = re.exec(part)) !== null) {
-        if (m.index > last) next.push(part.slice(last, m.index))
-        next.push(
-          <span key={`${m[0]}-${m.index}`} style={{ whiteSpace: 'nowrap' }}>
-            {m[0]}
-          </span>
-        )
-        last = m.index + m[0].length
-      }
-      if (last < part.length) next.push(part.slice(last))
-    })
-    parts = next
-  }
-  return parts
-}
+// Sanity handles resizing/encoding per srcset width.
+// Local fallback (/hero-bg.jpg) is served as-is.
+const heroLoader = ({
+  src,
+  width,
+  quality,
+}: {
+  src: string;
+  width: number;
+  quality?: number;
+}) => {
+  if (!src.includes("cdn.sanity.io")) return src;
+  const base = src.split("?")[0];
+  return `${base}?w=${width}&q=${quality ?? 65}&auto=format&fit=max`;
+};
 
 export default function Hero({ data }: HeroProps) {
   // "Ver próximos viajes" resets the Próximas salidas filters to the default
   // state, then scrolls to the section.
   const scrollToTours = useCallback(() => {
-    window.dispatchEvent(new Event('tours:reset'))
+    window.dispatchEvent(new Event("tours:reset"));
     requestAnimationFrame(() => {
-      document.getElementById('tours')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    })
-  }, [])
+      document
+        .getElementById("tours")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, []);
 
-  const bgUrl = data.backgroundImageUrl ?? '/hero-bg.jpg'
+  const bgUrl = data.backgroundImageUrl ?? "/hero-bg.jpg";
 
   return (
     <header className="hero" id="top">
-      <div
-        className="bg"
-        aria-hidden="true"
-        style={{ backgroundImage: `url('${bgUrl}')` }}
-      />
+      <div className="bg" aria-hidden="true">
+        <Image
+          loader={heroLoader}
+          src={bgUrl}
+          alt=""
+          fill
+          priority
+          quality={65}
+          sizes="100vw"
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
+      </div>
 
       <div className="inner">
         <div className="eyebrow uppercase">
@@ -69,7 +64,7 @@ export default function Hero({ data }: HeroProps) {
           {data.heading} <em>{data.headingEmphasis}</em>.
         </h1>
 
-        <p className="lede">{renderLede(data.lede)}</p>
+        <p className="lede">{data.lede}</p>
 
         <div className="actions">
           <button type="button" className="btn-primary" onClick={scrollToTours}>
@@ -96,5 +91,5 @@ export default function Hero({ data }: HeroProps) {
         <ChevronDown />
       </button>
     </header>
-  )
+  );
 }
