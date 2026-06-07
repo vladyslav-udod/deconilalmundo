@@ -1128,7 +1128,7 @@ h2.display em {
 .select-wrap {
   display: flex;
   align-items: center;
-  min-width: 200px;
+  min-width: 210px;
   border: 1px solid var(--line);
   border-radius: 999px;
 }
