@@ -1158,6 +1158,7 @@
   }
   .tp .gallery {
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
     grid-auto-rows: 1fr;
     aspect-ratio: auto;
     min-height: 0;
