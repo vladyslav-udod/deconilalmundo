@@ -3,10 +3,10 @@ import { TRAVEL_TYPES, buildMonthOptions } from "../../lib/taxonomy";
 
 // Month dropdown options generated the same way as the front-end filter:
 // current month + the following 6 months, each with its year.
-const MONTH_OPTIONS = buildMonthOptions(7).map((m) => ({
-  title: m.label,
-  value: m.value,
-}));
+// const MONTH_OPTIONS = buildMonthOptions(7).map((m) => ({
+//   title: m.label,
+//   value: m.value,
+// }));
 
 // Predefined travel-type labels from "Seis formas de vivirlo".
 const TYPE_OPTIONS = TRAVEL_TYPES.map((t) => ({
@@ -70,19 +70,19 @@ export const tourType = defineType({
       },
       validation: (r) => r.required(),
     }),
-    defineField({
-      name: "month",
-      title: "Mes de salida",
-      type: "string",
-      group: "basic",
-      description:
-        "Mes (con año) de la próxima salida. Las opciones se generan automáticamente: el mes actual y los 6 siguientes.",
-      options: {
-        list: MONTH_OPTIONS,
-        layout: "dropdown",
-      },
-      validation: (r) => r.required(),
-    }),
+    // defineField({
+    //   name: "month",
+    //   title: "Mes de salida",
+    //   type: "string",
+    //   group: "basic",
+    //   description:
+    //     "Mes (con año) de la próxima salida. Las opciones se generan automáticamente: el mes actual y los 6 siguientes.",
+    //   options: {
+    //     list: MONTH_OPTIONS,
+    //     layout: "dropdown",
+    //   },
+    //   validation: (r) => r.required(),
+    // }),
     defineField({
       name: "startDate",
       title: "Fecha de inicio",

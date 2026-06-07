@@ -50,7 +50,7 @@ export function travelTypeValueFromTitle(title: string): string | undefined {
 // both the front-end month filter and the Sanity schema dropdown so they always
 // stay in sync.
 
-const MONTH_NAMES_LONG = [
+export const MONTH_NAMES_LONG = [
   "Enero",
   "Febrero",
   "Marzo",

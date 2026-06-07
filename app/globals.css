@@ -1119,15 +1119,22 @@ h2.display em {
 }
 
 .filter.active {
-  background: var(--ink);
+  background: var(--accent);
   color: var(--paper);
-  border-color: var(--ink);
+  border-color: var(--accent);
 }
 
 /* Dropdowns (type + month) */
 .select-wrap {
   display: flex;
   align-items: center;
+  min-width: 200px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.select-wrap:hover {
+  border-color: var(--ink);
 }
 
 .select-wrap select {
@@ -2257,6 +2264,63 @@ footer a:hover {
   width: 32px;
   height: 32px;
   fill: #fff;
+}
+
+/* ─── Select filters ─────────────────────────────────────────────────────────────── */
+
+.fs {
+  position: relative;
+  width: 100%;
+}
+.fs:hover .fs-trigger {
+  border-color: var(--accent);
+}
+.fs-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 9px 16px;
+  font-size: 14px;
+}
+.fs-caret {
+  width: 12px;
+  height: 8px;
+  flex: none;
+  transition: transform 0.15s;
+}
+.fs.open .fs-caret {
+  transform: rotate(180deg);
+}
+.fs-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  max-height: 260px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(12, 32, 39, 0.08);
+}
+.fs-option {
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.fs-option.active {
+  background: var(--bg);
+}
+.fs-option.selected {
+  font-weight: 600;
+  color: var(--accent);
 }
 
 /* ─── JSON-LD (hidden) ───────────────────────────────────────────────────────── */

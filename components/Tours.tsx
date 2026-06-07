@@ -12,7 +12,9 @@ import {
   buildMonthOptions,
   monthKey,
   tourDuration,
+  MONTH_NAMES_LONG,
 } from "@/lib/taxonomy";
+import { FilterSelect, SelectOption } from "./common/FilterSelect";
 
 const REGION_LABELS: Record<Region | "todos", string> = {
   todos: "Todas",
@@ -118,10 +120,20 @@ export default function Tours({ tours, section, initialFilters }: ToursProps) {
   });
 
   // Month dropdown: current month + the following 6 months (with year).
-  const monthOptions = useMemo(
-    () => [{ value: "todos", label: "Cualquier mes" }, ...buildMonthOptions(7)],
-    [],
-  );
+  const monthOptions = useMemo(() => {
+    const availableOptions = Array.from(
+      new Set(tours.map((t) => t.startDate.slice(0, 7))),
+    ).map((m) => {
+      const [year, month] = m!.split("-");
+      return {
+        label: `${MONTH_NAMES_LONG[parseInt(month, 10) - 1]} ${year}`,
+        value: m,
+      };
+    });
+
+    return [{ value: "todos", label: "Cualquier mes" }, ...availableOptions];
+  }, []);
+
   const validMonthValues = useMemo(
     () => new Set(monthOptions.map((m) => m.value)),
     [monthOptions],
@@ -277,6 +289,29 @@ export default function Tours({ tours, section, initialFilters }: ToursProps) {
     syncUrl("todos", "todos", "todos");
   };
 
+  // near your other useMemo blocks:
+  const regionSelectOptions = useMemo<SelectOption[]>(
+    () =>
+      regions.map((r) => ({
+        value: r,
+        label: r === "todos" ? "Todas las regiones" : REGION_LABELS[r],
+      })),
+    [regions],
+  );
+
+  const typeSelectOptions = useMemo<SelectOption[]>(
+    () => [
+      { value: "todos", label: "Todos los tipos" },
+      ...typeOptions.map((t) => ({ value: t.value, label: t.label })),
+    ],
+    [typeOptions],
+  );
+
+  const monthSelectOptions = useMemo<SelectOption[]>(
+    () => monthOptions.map((m) => ({ value: String(m.value), label: m.label })),
+    [monthOptions],
+  );
+
   return (
     <section className="tours" id="tours" aria-labelledby="tours-heading">
       <div className="wrap">
@@ -313,21 +348,14 @@ export default function Tours({ tours, section, initialFilters }: ToursProps) {
                 </button>
               ))}
             </div>
+
             <div className="select-wrap select-region">
-              <select
-                id="regionSelect"
+              <FilterSelect
                 value={regionFilter}
-                onChange={(e) =>
-                  changeRegion(e.target.value as Region | "todos")
-                }
-                aria-label="Filtrar por región"
-              >
-                {regions.map((r) => (
-                  <option key={r} value={r}>
-                    {r === "todos" ? "Todas las regiones" : REGION_LABELS[r]}
-                  </option>
-                ))}
-              </select>
+                options={regionSelectOptions}
+                onChange={(v) => changeRegion(v as Region | "todos")}
+                ariaLabel="Filtrar por región"
+              />
             </div>
           </div>
 
@@ -337,19 +365,12 @@ export default function Tours({ tours, section, initialFilters }: ToursProps) {
                 Tipo de viaje
               </label>
               <div className="select-wrap">
-                <select
-                  id="typeSelect"
+                <FilterSelect
                   value={typeFilter}
-                  onChange={(e) => changeType(e.target.value)}
-                  aria-label="Filtrar por tipo de viaje"
-                >
-                  <option value="todos">Todos los tipos</option>
-                  {typeOptions.map((t) => (
-                    <option key={t.value} value={t.value}>
-                      {t.label}
-                    </option>
-                  ))}
-                </select>
+                  options={typeSelectOptions}
+                  onChange={changeType}
+                  ariaLabel="Filtrar por tipo de viaje"
+                />
               </div>
             </div>
           )}
@@ -359,18 +380,12 @@ export default function Tours({ tours, section, initialFilters }: ToursProps) {
               Salida
             </label>
             <div className="select-wrap">
-              <select
-                id="monthSelect"
+              <FilterSelect
                 value={monthFilter}
-                onChange={(e) => changeMonth(e.target.value)}
-                aria-label="Filtrar por mes de salida"
-              >
-                {monthOptions.map((m) => (
-                  <option key={m.value} value={m.value}>
-                    {m.label}
-                  </option>
-                ))}
-              </select>
+                options={monthSelectOptions}
+                onChange={changeMonth}
+                ariaLabel="Filtrar por mes de salida"
+              />
             </div>
           </div>
 
