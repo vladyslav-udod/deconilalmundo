@@ -134,6 +134,7 @@ button {
   font-size: 17px;
   letter-spacing: 0.02em;
   justify-self: start;
+  width: 375px;
 }
 
 .nav .brand .mark {
@@ -2329,6 +2330,16 @@ script[type="application/ld+json"] {
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .hero .inner {
+    padding: 0 24px 140px 24px;
+  }
+
+  .scroll-down {
+    display: none;
+  }
+}
+
 @media (max-width: 1000px) {
   .nav-links {
     display: none;
@@ -2369,10 +2380,6 @@ script[type="application/ld+json"] {
 
   section {
     padding: 80px 24px;
-  }
-
-  .hero .inner {
-    padding: 0 24px 140px 24px;
   }
 
   .hero .meta {
@@ -2469,6 +2476,10 @@ script[type="application/ld+json"] {
 }
 
 @media (max-width: 600px) {
+  .nav .brand {
+    width: auto;
+  }
+
   .footer-grid {
     grid-template-columns: 1fr;
   }
@@ -2502,10 +2513,6 @@ script[type="application/ld+json"] {
   .tour {
     flex-basis: 64%;
     max-width: 240px;
-  }
-
-  .scroll-down {
-    display: none;
   }
 
   .btn-primary {
