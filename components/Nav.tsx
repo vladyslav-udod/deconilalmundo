@@ -25,7 +25,7 @@ const LINKS = [
   { id: "tipos", label: "Tipos de viaje" },
   { id: "nosotros", label: "Nosotros" },
   // { id: "testimonios", label: "Opiniones" },
-  { id: "contacts", label: "Contactos" },
+  { id: "contacts", label: "Contactos", existOnAllPages: true },
 ];
 
 export default function Nav({
@@ -86,9 +86,12 @@ export default function Nav({
 
         <div className="nav-center">
           <ul className="nav-links" role="list">
-            {LINKS.map(({ id, label }) => (
+            {LINKS.map(({ id, label, existOnAllPages }) => (
               <li key={id}>
-                <a href={`/#${id}`} onClick={handleClick(id)}>
+                <a
+                  href={existOnAllPages && !onHome ? `#${id}` : `/#${id}`}
+                  onClick={handleClick(id)}
+                >
                   {label}
                 </a>
               </li>
@@ -146,10 +149,10 @@ export default function Nav({
         inert={!menuOpen}
       >
         <ul>
-          {LINKS.map(({ id, label }) => (
+          {LINKS.map(({ id, label, existOnAllPages }) => (
             <li key={id}>
               <a
-                href={`/#${id}`}
+                href={existOnAllPages && !onHome ? `#${id}` : `/#${id}`}
                 onClick={closeAnd(
                   onHome
                     ? () =>
