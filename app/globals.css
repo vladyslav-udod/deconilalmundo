@@ -1314,6 +1314,7 @@ h2.display em {
   justify-content: space-between;
   flex-direction: column;
   gap: 14px;
+  min-height: 66px;
 }
 
 .tour .overlay-subtitle {

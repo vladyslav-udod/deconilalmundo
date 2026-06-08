@@ -62,6 +62,20 @@ function formatDateRange(tour: Tour): { display: string; note: string } {
   const endDay = end.getDate();
   const endMonthName = MONTH_NAMES_SHORT[end.getMonth()];
 
+  if (tour.startDate === tour.endDate) {
+    if (start < new Date()) {
+      return {
+        display: "Por confirmar",
+        note: `${year}`,
+      };
+    }
+
+    return {
+      display: `${startDay} ${startMonthName}`,
+      note: `${year}`,
+    };
+  }
+
   if (start.getMonth() === end.getMonth()) {
     return {
       display: `${startDay} - ${endDay} ${startMonthName}`,
@@ -451,7 +465,9 @@ export default function Tours({ tours, section, initialFilters }: ToursProps) {
                           <small>{note}</small>
                         </div>
                         <div className="pill -duration">
-                          {tourDuration(tour.startDate, tour.endDate)} días
+                          {tourDuration(tour.startDate, tour.endDate) === 1
+                            ? `${tourDuration(tour.startDate, tour.endDate)} día`
+                            : `${tourDuration(tour.startDate, tour.endDate)} días`}
                         </div>
                         {tour.subtitle && (
                           <small className="overlay-subtitle">

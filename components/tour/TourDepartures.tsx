@@ -71,7 +71,7 @@ function formatRange(
   const ed = end.getDate();
   const em = MONTHS_ES[end.getMonth()];
   const range = sm === em ? `${sd} - ${ed} ${sm}` : `${sd} ${sm} - ${ed} ${em}`;
-  return { range, year };
+  return { range: durationDays === 1 ? `${sd} ${sm}` : range, year };
 }
 
 const AVAIL: Record<Availability, { label: string; cls: string }> = {
