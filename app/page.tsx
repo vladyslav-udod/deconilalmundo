@@ -22,6 +22,7 @@ import SocialFollow from "@/components/SocialFollow";
 import CTAFinal from "@/components/CTAFinal";
 import Footer from "@/components/Footer";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
+import Contacts from "@/components/Contacts";
 
 // ISR: revalidate every 60 seconds — keeps the page fast while CMS changes propagate quickly
 export const revalidate = 60;
@@ -86,6 +87,7 @@ export default async function HomePage({
           instagramUrl={settings.instagram}
           facebookUrl={settings.facebook}
         />
+        <Contacts settings={settings} />
         <CTAFinal data={cta} />
       </main>
 

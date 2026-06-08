@@ -2324,6 +2324,130 @@ footer a:hover {
   color: var(--accent);
 }
 
+.contacts .head,
+.contacts .section-label {
+  text-align: center;
+  justify-content: center;
+}
+.cx-contact {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  padding: 90px 40px;
+  font-family: "Roboto", system-ui, sans-serif;
+  color: var(--ink);
+}
+
+.cx-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 48px;
+}
+.cx-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  text-decoration: none;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px 26px;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  overflow: hidden;
+}
+.cx-card:hover {
+  border-color: var(--accent-soft);
+  box-shadow: 0 12px 30px rgba(12, 32, 39, 0.08);
+}
+.cx-ic {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+}
+.cx-ic svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.7;
+}
+.cx-txt {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.cx-lab {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+}
+.cx-val {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cx-card:hover .cx-val {
+  color: var(--accent);
+}
+.cx-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+.cx-when {
+  font-size: 14px;
+  color: var(--muted);
+  margin-right: 8px;
+}
+.cx-when b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.cx-wa {
+  display: inline-flex;
+  width: 250px;
+  align-items: center;
+  gap: 10px;
+  background: var(--whatsapp);
+  color: var(--paper);
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.cx-wa svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+.cx-wa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(37, 211, 102, 0.38);
+}
+
 /* ─── JSON-LD (hidden) ───────────────────────────────────────────────────────── */
 script[type="application/ld+json"] {
   display: none;
@@ -2472,6 +2596,22 @@ script[type="application/ld+json"] {
   .wa .wa-label,
   .btn-ghost {
     display: none;
+  }
+
+  .cx-contact {
+    padding: 64px 22px;
+  }
+  .cx-grid {
+    grid-template-columns: 1fr;
+  }
+  .cx-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .cx-wa {
+    justify-content: center;
   }
 }
 

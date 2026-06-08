@@ -23,6 +23,7 @@ import TourIncludes from "@/components/tour/TourIncludes";
 import TourDepartures from "@/components/tour/TourDepartures";
 import TourFlights from "@/components/tour/TourFlights";
 import TourInfo from "@/components/tour/TourInfo";
+import Contacts from "@/components/Contacts";
 
 export const revalidate = 60;
 
@@ -153,6 +154,7 @@ export default async function TourPage({ params }: PageProps) {
           instagramUrl={settings.instagram}
           facebookUrl={settings.facebook}
         />
+        <Contacts settings={settings} />
         <CTAFinal data={cta} />
       </main>
 
