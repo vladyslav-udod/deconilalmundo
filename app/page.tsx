@@ -23,6 +23,7 @@ import CTAFinal from "@/components/CTAFinal";
 import Footer from "@/components/Footer";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
 import Contacts from "@/components/Contacts";
+import FeaturedTour from "@/components/FeaturedTour";
 
 // ISR: revalidate every 60 seconds — keeps the page fast while CMS changes propagate quickly
 export const revalidate = 60;
@@ -67,6 +68,7 @@ export default async function HomePage({
 
       <main id="main">
         <Hero data={hero} />
+        <FeaturedTour featuredTour={tours.filter((tour) => tour.featured)[0]} />
         <Tours
           tours={tours}
           section={tourSection}

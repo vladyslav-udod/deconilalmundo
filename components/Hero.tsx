@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import Image from "next/image";
-import type { HeroSection } from "@/types";
+import type { HeroSection, Tour } from "@/types";
 import { ArrowDown, ChevronDown } from "@/components/icons";
 
 interface HeroProps {
@@ -66,7 +66,6 @@ export default function Hero({ data }: HeroProps) {
         </h1>
 
         <p className="lede">{data.lede}</p>
-
         <div className="actions">
           <button type="button" className="btn-primary" onClick={scrollToTours}>
             <span>{data.ctaText}</span>

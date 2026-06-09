@@ -1,7 +1,7 @@
 import type { TourDetail, SiteSettings } from "@/types";
 import { Phone } from "@/components/icons";
 import TourGallery from "./TourGallery";
-import { getNextDeparture } from "@/app/utils/common";
+import { formatShortDate, getNextDeparture } from "@/app/utils/common";
 
 interface TourHeroProps {
   tour: TourDetail;
@@ -31,12 +31,6 @@ const MONTHS_ES = [
   "nov",
   "dic",
 ];
-
-function formatShortDate(dateStr?: string): string {
-  if (!dateStr) return "Por confirmar";
-  const d = new Date(dateStr + "T00:00:00");
-  return `${String(d.getDate()).padStart(2, "0")} ${MONTHS_ES[d.getMonth()]} ${d.getFullYear()}`;
-}
 
 // Gallery placeholder images by region when no Sanity images are available
 const REGION_GALLERY: Record<string, string[]> = {
@@ -144,14 +138,16 @@ export default function TourHero({ tour, settings }: TourHeroProps) {
                         : "Por confirmar"}
                     </div>
                   </div>
-                  <div className="fact">
-                    <div className="k">Próxima salida</div>
-                    <div className="v">{formatShortDate(nextDeparture)}</div>
-                  </div>
-                  <div className="fact">
+                  {nextDeparture && (
+                    <div className="fact">
+                      <div className="k">Próxima salida</div>
+                      <div className="v">{formatShortDate(nextDeparture)}</div>
+                    </div>
+                  )}
+                  {/* <div className="fact">
                     <div className="k">Grupo</div>
                     <div className="v">Reducido</div>
-                  </div>
+                  </div> */}
                   {/* TODO adjust it */}
                   {/* {tour.flightsIncluded && (
                     <div className="fact">

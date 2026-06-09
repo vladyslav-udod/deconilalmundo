@@ -48,3 +48,9 @@ export const getNextDeparture = (
         )[0]?.date ?? null)
     : null;
 };
+
+export function formatShortDate(dateStr?: string): string {
+  if (!dateStr) return "Por confirmar";
+  const d = new Date(dateStr + "T00:00:00");
+  return `${String(d.getDate()).padStart(2, "0")} ${MONTHS_ES[d.getMonth()]} ${d.getFullYear()}`;
+}
