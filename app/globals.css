@@ -2674,8 +2674,7 @@ script[type="application/ld+json"] {
   }
 
   .hero .meta {
-    left: 24px;
-    right: 24px;
+    display: none;
   }
 
   .intro .grid,
@@ -2787,7 +2786,7 @@ script[type="application/ld+json"] {
   }
 
   .hero .inner {
-    padding-bottom: 80px;
+    padding-bottom: 40px;
   }
 
   .ft.is-floating {
