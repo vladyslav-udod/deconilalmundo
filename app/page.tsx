@@ -75,6 +75,7 @@ export default async function HomePage({
             mes: sp.mes ?? "todos",
             tipo: sp.tipo ?? "todos",
           }}
+          now={Date.now()}
         />
         <TiposDeViaje section={travelTypeSection} types={travelTypes} />
         <Intro data={intro} />

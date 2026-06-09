@@ -174,7 +174,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         {/* TODO: uncomment when site is deployed */}
         {/* <CookieBanner /> */}

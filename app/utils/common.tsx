@@ -36,10 +36,13 @@ export function formatRange(
   return { range: durationDays === 1 ? `${sd} ${sm}` : range, year };
 }
 
-export const getNextDeparture = (departures?: Departure[]): string | null => {
+export const getNextDeparture = (
+  departures?: Departure[],
+  now = Date.now(),
+): string | null => {
   return departures?.length
     ? (departures
-        .filter((d) => new Date(d.date).getTime() > Date.now())
+        .filter((d) => new Date(d.date).getTime() > now)
         .sort(
           (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
         )[0]?.date ?? null)

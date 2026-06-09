@@ -46,13 +46,20 @@ const TYPE_LABEL: Record<string, string> = Object.fromEntries(
   TRAVEL_TYPES.map((t) => [t.value, t.label]),
 );
 
-function formatDateRange(tour: Tour): { display: string; note: string } {
+function formatDateRange(
+  tour: Tour,
+  now: number,
+): { display: string; note: string } {
   const start = new Date(tour.startDate + "T00:00:00");
   const startDay = start.getDate();
   const startMonthName = MONTH_NAMES_SHORT[start.getMonth()];
-  const proximaSalida = getNextDeparture(tour.departures);
-  const proximaSalidaFormatted = formatRange(proximaSalida!, tour.duration);
-  const year = proximaSalidaFormatted.year;
+  const proximaSalida = getNextDeparture(tour.departures, now);
+  const proximaSalidaFormatted = proximaSalida
+    ? formatRange(proximaSalida, tour.duration)
+    : null;
+  const year = proximaSalidaFormatted
+    ? proximaSalidaFormatted.year
+    : String(start.getFullYear());
 
   if (!tour.endDate) {
     return {
@@ -68,7 +75,9 @@ function formatDateRange(tour: Tour): { display: string; note: string } {
   if (tour.startDate === tour.endDate) {
     if (start < new Date()) {
       return {
-        display: proximaSalidaFormatted.range,
+        display: proximaSalidaFormatted
+          ? proximaSalidaFormatted.range
+          : `${startDay} ${startMonthName}`,
         note: `${year}`,
       };
     }
@@ -115,9 +124,15 @@ export interface ToursProps {
   tours: Tour[];
   section: TourSection;
   initialFilters: { region: string; mes: string; tipo: string };
+  now: number;
 }
 
-export default function Tours({ tours, section, initialFilters }: ToursProps) {
+export default function Tours({
+  tours,
+  section,
+  initialFilters,
+  now,
+}: ToursProps) {
   // Filters default to "todos" for SSR (so the section is fully server-rendered
   // and SEO-friendly); the URL is read on mount.
   const initRegion = VALID_REGIONS.includes(initialFilters.region as Region)
@@ -436,7 +451,7 @@ export default function Tours({ tours, section, initialFilters }: ToursProps) {
         ) : (
           <div className="tours-grid" role="list" aria-label="Próximas salidas">
             {filtered.map((tour) => {
-              const { display, note } = formatDateRange(tour);
+              const { display, note } = formatDateRange(tour, now);
               const imgSrc =
                 tour.imageUrl ??
                 `https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80`;
