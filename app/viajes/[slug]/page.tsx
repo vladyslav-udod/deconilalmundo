@@ -45,7 +45,9 @@ export async function generateMetadata({
 
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://deconilalmundo.es";
-  const durationText = tour.duration ? `${tour.duration} días ` : "";
+  const durationText = tour.duration
+    ? `${tour.duration} día${tour.duration > 1 ? "s" : ""} `
+    : "";
   const description =
     tour.lead ??
     `Viaje acompañado a ${tour.title} desde Conil de la Frontera, Cádiz. ${durationText}desde ${tour.price.toLocaleString("es-ES")} €. Halcón Viajes Conil.`;
@@ -128,7 +130,9 @@ export default async function TourPage({ params }: PageProps) {
         forceSolid
         tourBar={{
           title: tour.title,
-          meta: tour.duration ? `${tour.duration} días` : tour.title,
+          meta: tour.duration
+            ? `${tour.duration} día${tour.duration > 1 ? "s" : ""}`
+            : tour.title,
           price: tour.price,
           reserveUrl,
         }}
