@@ -2487,7 +2487,7 @@ footer a:hover {
 .ft.is-floating {
   position: absolute;
   right: 24px;
-  bottom: 90px;
+  bottom: 120px;
   z-index: 3;
 }
 
