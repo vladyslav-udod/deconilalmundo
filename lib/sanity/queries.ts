@@ -648,11 +648,13 @@ export async function getTourSection(): Promise<TourSection> {
 export async function getTours(): Promise<Tour[]> {
   if (!isConfigured) return FALLBACK_TOURS;
   try {
-    const rows = await client.fetch<(Tour & { image?: { asset: unknown } })[]>(
+    const rows = await client.fetch<
+      (Tour & { image?: { asset: unknown }; departures: Departure[] })[]
+    >(
       `*[_type == "tour" && active != false] | order(month asc, order asc) {
         _id, title, subtitle, "slug": slug.current,
         region, month, startDate, endDate, price,
-        image, typeTag, featured, active, order
+        image, typeTag, featured, active, order, departures, duration
       }`,
       {},
       { next: { revalidate: 60 } },

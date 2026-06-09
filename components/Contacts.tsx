@@ -1,8 +1,9 @@
 import { Instagram, Facebook } from "@/components/icons";
-import { SiteSettings } from "@/types";
+import { SiteSettings, TourDetail } from "@/types";
 
 interface SocialFollowProps {
   settings: SiteSettings;
+  tour?: TourDetail;
 }
 
 /* --- inline icons --- */
@@ -31,7 +32,7 @@ const WhatsAppIcon = () => (
 
 const ICONS = { phone: PhoneIcon, mail: MailIcon, pin: PinIcon } as const;
 
-export default function Contacts({ settings }: SocialFollowProps) {
+export default function Contacts({ settings, tour }: SocialFollowProps) {
   const DEFAULT_CHANNELS = [
     {
       icon: "phone",
@@ -55,8 +56,11 @@ export default function Contacts({ settings }: SocialFollowProps) {
   ];
 
   const whatsappHref = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(
-    settings.whatsappMessage ||
-      "Hola, me gustaría recibir más información sobre vuestros viajes acompañados.",
+    tour
+      ? `Hola, me interesa reservar el viaje a ${tour.title}${
+          tour.startDate ? ` (${tour.startDate})` : ""
+        }. ¿Me dais más información?`
+      : settings.whatsappMessage,
   )}`;
 
   return (

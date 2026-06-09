@@ -1,6 +1,7 @@
 import type { TourDetail, SiteSettings } from "@/types";
 import { Phone } from "@/components/icons";
 import TourGallery from "./TourGallery";
+import { getNextDeparture } from "@/app/utils/common";
 
 interface TourHeroProps {
   tour: TourDetail;
@@ -95,8 +96,8 @@ export default function TourHero({ tour, settings }: TourHeroProps) {
 
   const phone = tour.contactPhone ?? settings.phone;
   const email = settings.email;
-  const nextDeparture = tour.departures?.[0]?.date ?? tour.startDate;
   const regionLabel = REGION_LABELS[tour.region] ?? tour.region;
+  const nextDeparture = getNextDeparture(tour.departures);
 
   return (
     <header className="tour-head">
@@ -151,6 +152,7 @@ export default function TourHero({ tour, settings }: TourHeroProps) {
                     <div className="k">Grupo</div>
                     <div className="v">Reducido</div>
                   </div>
+                  {/* TODO adjust it */}
                   {/* {tour.flightsIncluded && (
                     <div className="fact">
                       <div className="k">Vuelos</div>

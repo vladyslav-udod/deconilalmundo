@@ -15,6 +15,7 @@ import {
   MONTH_NAMES_LONG,
 } from "@/lib/taxonomy";
 import { FilterSelect, SelectOption } from "./common/FilterSelect";
+import { formatRange, getNextDeparture } from "@/app/utils/common";
 
 const REGION_LABELS: Record<Region | "todos", string> = {
   todos: "Todas",
@@ -49,7 +50,9 @@ function formatDateRange(tour: Tour): { display: string; note: string } {
   const start = new Date(tour.startDate + "T00:00:00");
   const startDay = start.getDate();
   const startMonthName = MONTH_NAMES_SHORT[start.getMonth()];
-  const year = start.getFullYear();
+  const proximaSalida = getNextDeparture(tour.departures);
+  const proximaSalidaFormatted = formatRange(proximaSalida!, tour.duration);
+  const year = proximaSalidaFormatted.year;
 
   if (!tour.endDate) {
     return {
@@ -65,7 +68,7 @@ function formatDateRange(tour: Tour): { display: string; note: string } {
   if (tour.startDate === tour.endDate) {
     if (start < new Date()) {
       return {
-        display: "Por confirmar",
+        display: proximaSalidaFormatted.range,
         note: `${year}`,
       };
     }

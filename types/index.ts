@@ -36,6 +36,7 @@ export interface Tour {
   featured?: boolean;
   active?: boolean;
   order?: number;
+  departures?: Departure[];
 }
 
 export interface ItineraryDay {

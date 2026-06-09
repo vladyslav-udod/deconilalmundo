@@ -1,3 +1,4 @@
+import { formatRange } from "@/app/utils/common";
 import type { TourDetail, Availability, SiteSettings } from "@/types";
 
 interface TourDeparturesProps {
@@ -31,47 +32,8 @@ function whatsappLink(
   tour: TourDetail,
   dateStr: string,
 ): string {
-  const msg =
-    `Hola, me interesa el viaje a ${tour.title}` +
-    (tour.startDate ? ` (${tour.startDate})` : "") +
-    ` con salida el ${longDate(dateStr)}. ¿Me dais más información?`;
+  const msg = `Hola, me interesa el viaje a ${tour.title} con salida el ${longDate(dateStr)}. ¿Me dais más información?`;
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
-}
-
-const MONTHS_ES = [
-  "ene",
-  "feb",
-  "mar",
-  "abr",
-  "may",
-  "jun",
-  "jul",
-  "ago",
-  "sep",
-  "oct",
-  "nov",
-  "dic",
-];
-
-/** Format a departure as a "03 — 18 ago / 2026" range using the tour duration. */
-function formatRange(
-  dateStr: string,
-  durationDays?: number,
-): { range: string; year: string } {
-  const start = new Date(dateStr + "T00:00:00");
-  const sd = start.getDate();
-  const sm = MONTHS_ES[start.getMonth()];
-  const year = String(start.getFullYear());
-
-  // Without a known duration, show just the start day.
-  if (!durationDays) return { range: `${sd} ${sm}`, year };
-
-  const end = new Date(start);
-  end.setDate(end.getDate() + Math.max(0, durationDays - 1));
-  const ed = end.getDate();
-  const em = MONTHS_ES[end.getMonth()];
-  const range = sm === em ? `${sd} - ${ed} ${sm}` : `${sd} ${sm} - ${ed} ${em}`;
-  return { range: durationDays === 1 ? `${sd} ${sm}` : range, year };
 }
 
 const AVAIL: Record<Availability, { label: string; cls: string }> = {
@@ -117,9 +79,14 @@ export default function TourDepartures({
                 <div>
                   <span className={`badge ${a.cls}`}>{a.label}</span>
                 </div>
-                <div className="pr">
-                  {dep.price.toLocaleString("es-ES")}€<small>por persona</small>
-                </div>
+                {dep.price ? (
+                  <div className="pr">
+                    {dep.price?.toLocaleString("es-ES")}€
+                    <small>por persona</small>
+                  </div>
+                ) : (
+                  <div></div>
+                )}
                 <div className="go">
                   {!full && (
                     <a

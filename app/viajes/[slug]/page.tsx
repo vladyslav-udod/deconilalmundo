@@ -154,7 +154,7 @@ export default async function TourPage({ params }: PageProps) {
           instagramUrl={settings.instagram}
           facebookUrl={settings.facebook}
         />
-        <Contacts settings={settings} />
+        <Contacts settings={settings} tour={tour} />
         <CTAFinal data={cta} />
       </main>
 
