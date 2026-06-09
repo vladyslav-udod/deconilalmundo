@@ -2838,7 +2838,7 @@ script[type="application/ld+json"] {
 
   /* Features tour block */
   .ft-body {
-    padding: 16px 17px 17px;
+    padding: 16px 24px;
   }
   .ft-name {
     font-size: 22px;
