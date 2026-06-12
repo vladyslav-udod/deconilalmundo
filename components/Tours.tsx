@@ -49,7 +49,7 @@ const TYPE_LABEL: Record<string, string> = Object.fromEntries(
 function formatDateRange(
   tour: Tour,
   now: number,
-): { display: string; note: string } {
+): { display: string; note: string; prefix?: string } {
   const start = new Date(tour.startDate + "T00:00:00");
   const startDay = start.getDate();
   const startMonthName = MONTH_NAMES_SHORT[start.getMonth()];
@@ -74,6 +74,19 @@ function formatDateRange(
   const endDay = end.getDate();
   const endMonthName = MONTH_NAMES_SHORT[end.getMonth()];
 
+  const labelPrefix =
+    tour.departures && tour.departures?.length > 1 ? "Próxima salida" : "";
+
+  if (start < new Date() && proximaSalidaFormatted) {
+    return {
+      display: proximaSalidaFormatted
+        ? proximaSalidaFormatted.range
+        : `${startDay} ${startMonthName}`,
+      note: `${year}`,
+      ...(labelPrefix && { prefix: labelPrefix }),
+    };
+  }
+
   if (tour.startDate === tour.endDate) {
     if (start < new Date()) {
       return {
@@ -81,12 +94,14 @@ function formatDateRange(
           ? proximaSalidaFormatted.range
           : `${startDay} ${startMonthName}`,
         note: `${year}`,
+        ...(labelPrefix && { prefix: labelPrefix }),
       };
     }
 
     return {
       display: `${startDay} ${startMonthName}`,
       note: `${year}`,
+      ...(labelPrefix && { prefix: labelPrefix }),
     };
   }
 
@@ -99,6 +114,7 @@ function formatDateRange(
   return {
     display: `${startDay} ${startMonthName} - ${endDay} ${endMonthName}`,
     note: `${year}`,
+    ...(labelPrefix && { prefix: labelPrefix }),
   };
 }
 
@@ -478,7 +494,7 @@ export default function Tours({
         ) : (
           <div className="tours-grid" role="list" aria-label="Próximas salidas">
             {filtered.map((tour) => {
-              const { display, note } = formatDateRange(tour, now);
+              const { display, note, prefix } = formatDateRange(tour, now);
               const imgSrc =
                 tour.imageUrl ??
                 `https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80`;
@@ -506,6 +522,9 @@ export default function Tours({
                       <div className="pill">{REGION_LABELS[tour.region]}</div>
                       <div className="overlay">
                         <div className="dates">
+                          {prefix && (
+                            <small className="dates-prefix">{prefix}</small>
+                          )}
                           {display}
                           <small>{note}</small>
                         </div>

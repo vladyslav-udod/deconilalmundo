@@ -1334,16 +1334,24 @@ h2.display em {
   letter-spacing: 0.02em;
   line-height: 1.2;
   font-feature-settings: "tnum";
+  text-transform: uppercase;
 }
 
 .tour .overlay .dates small {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   opacity: 0.82;
   margin-top: 4px;
   font-weight: 500;
+}
+
+.tour .overlay .dates .dates-prefix {
+  margin-top: -19px;
+  margin-bottom: 4px;
+  opacity: 1;
+  color: var(--accent-2);
 }
 
 .tour .overlay .dur {
