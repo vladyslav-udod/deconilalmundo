@@ -53,10 +53,12 @@ function formatDateRange(
   const start = new Date(tour.startDate + "T00:00:00");
   const startDay = start.getDate();
   const startMonthName = MONTH_NAMES_SHORT[start.getMonth()];
+
   const proximaSalida = getNextDeparture(tour.departures, now);
   const proximaSalidaFormatted = proximaSalida
     ? formatRange(proximaSalida, tour.duration)
     : null;
+
   const year = proximaSalidaFormatted
     ? proximaSalidaFormatted.year
     : String(start.getFullYear());
@@ -154,7 +156,13 @@ export default function Tours({
   // Month dropdown: current month + the following 6 months (with year).
   const monthOptions = useMemo(() => {
     const availableOptions = Array.from(
-      new Set(tours.map((t) => t.startDate.slice(0, 7))),
+      new Set(
+        tours.flatMap((t) =>
+          t.departures
+            ? t.departures.map((d) => d.date.slice(0, 7))
+            : [t.startDate.slice(0, 7)],
+        ),
+      ),
     ).map((m) => {
       const [year, month] = m!.split("-");
       return {
@@ -284,19 +292,38 @@ export default function Tours({
   };
 
   const filtered = useMemo(() => {
-    return tours.filter((t) => {
-      const regionOk = regionFilter === "todos" || t.region === regionFilter;
-      const monthOk =
-        monthFilter === "todos" || monthKey(t.startDate) === monthFilter;
-      const typeOk =
-        typeFilter === "todos" ||
-        (t.typeTag &&
-          Array.isArray(t.typeTag) &&
-          t.typeTag.some(
-            (tag) => travelTypeValueFromLabel(tag) === typeFilter,
-          ));
-      return regionOk && monthOk && typeOk;
-    });
+    return tours
+      .filter((t) => {
+        const regionOk = regionFilter === "todos" || t.region === regionFilter;
+        const monthOk =
+          monthFilter === "todos" ||
+          (t.departures
+            ? t.departures.some((d) => d.date.slice(0, 7) === monthFilter)
+            : monthKey(t.startDate) === monthFilter);
+        const typeOk =
+          typeFilter === "todos" ||
+          (t.typeTag &&
+            Array.isArray(t.typeTag) &&
+            t.typeTag.some(
+              (tag) => travelTypeValueFromLabel(tag) === typeFilter,
+            ));
+        return regionOk && monthOk && typeOk;
+      })
+      .sort((a, b) => {
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        if (a.order !== b.order)
+          return (a.order ?? Infinity) - (b.order ?? Infinity);
+        const dateA =
+          a.departures && a.departures.length > 0
+            ? new Date(a.departures[0].date).getTime()
+            : new Date(a.startDate).getTime();
+        const dateB =
+          b.departures && b.departures.length > 0
+            ? new Date(b.departures[0].date).getTime()
+            : new Date(b.startDate).getTime();
+        return dateA - dateB;
+      });
   }, [tours, regionFilter, monthFilter, typeFilter]);
 
   const regions = useMemo(() => {

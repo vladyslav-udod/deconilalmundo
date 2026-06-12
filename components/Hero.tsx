@@ -38,13 +38,12 @@ export default function Hero({ data }: HeroProps) {
   }, []);
 
   const bgUrl = data.backgroundImageUrl ?? "/hero-bg.jpg";
-  const isSanityImage = bgUrl.includes("cdn.sanity.io");
 
   return (
     <header className="hero" id="top">
       <div className="bg" aria-hidden="true">
         <Image
-          loader={isSanityImage ? heroLoader : undefined}
+          loader={heroLoader}
           src={bgUrl}
           alt=""
           fill
