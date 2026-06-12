@@ -44,7 +44,7 @@ export async function generateMetadata({
   if (!tour) return { title: "Viaje no encontrado" };
 
   const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://deconilalmundo.es";
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://deconilalmundo.com";
   const durationText = tour.duration
     ? `${tour.duration} día${tour.duration > 1 ? "s" : ""} `
     : "";

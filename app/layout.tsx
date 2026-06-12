@@ -11,7 +11,8 @@ const roboto = Roboto({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://deconilalmundo.es";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://deconilalmundo.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
