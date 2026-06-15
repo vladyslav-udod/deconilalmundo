@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 // import CookieBanner from '@/components/CookieBanner'
 
 // Single typeface across the whole site (replaces Oswald + Work Sans).
@@ -42,11 +45,11 @@ export const metadata: Metadata = {
   publisher: "Halcón Viajes Conil",
   category: "travel",
   alternates: {
-    canonical: "/",
+    canonical: "./",
     languages: {
       "es-ES": "/",
-      "en-US": "/en",
-      "de-DE": "/de",
+      // "en-US": "/en",
+      // "de-DE": "/de",
     },
   },
   openGraph: {
@@ -94,12 +97,13 @@ const structuredData = {
   description:
     "Agencia de viajes acompañados en Conil de la Frontera, Cádiz. Especialistas en viajes en grupo, circuitos internacionales, viajes para mujeres y solteros.",
   url: siteUrl,
-  telephone: "+34956000000",
-  email: "hola@deconilalmundo.es",
+  telephone: "+34667068085",
+  email: "halcont90@halconviajes.com",
   foundingDate: "2004",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Conil de la Frontera",
+    streetAddress:
+      "Pl. Blas Infante, 4, 11140 Conil de la Frontera, Cádiz, España",
     addressLocality: "Conil de la Frontera",
     addressRegion: "Cádiz",
     addressCountry: "ES",
@@ -169,16 +173,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={roboto.variable}>
-      <head>
+      <body suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-      </head>
-      <body suppressHydrationWarning>
         {children}
-        {/* TODO: uncomment when site is deployed */}
+        {/* TODO: uncomment when analitycs or userdata checks added */}
         {/* <CookieBanner /> */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
