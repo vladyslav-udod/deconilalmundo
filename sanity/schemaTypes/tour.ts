@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { TRAVEL_TYPES, buildMonthOptions } from "../../lib/taxonomy";
+import { TRAVEL_TYPES } from "../../lib/taxonomy";
 
 // Month dropdown options generated the same way as the front-end filter:
 // current month + the following 6 months, each with its year.
@@ -569,13 +569,12 @@ export const tourType = defineType({
     select: {
       title: "title",
       subtitle: "subtitle",
-      month: "month",
       price: "price",
       media: "image",
     },
-    prepare({ title, subtitle, month, price, media }) {
+    prepare({ title, subtitle, price, media }) {
       return {
-        title: `${title} — ${month}`,
+        title,
         subtitle: `${subtitle ?? ""} · ${price ? `${price.toLocaleString("es-ES")} €` : ""}`,
         media,
       };
