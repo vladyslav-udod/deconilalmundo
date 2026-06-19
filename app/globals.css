@@ -2896,6 +2896,15 @@ script[type="application/ld+json"] {
     font-size: 16px;
   }
 
+  .hero .eyebrow {
+    font-size: 10px;
+  }
+
+  .nav .brand .wordmark b,
+  .nav.is-solid .brand .wordmark b {
+    font-size: 14px;
+  }
+
   .nav .brand {
     width: auto;
   }
