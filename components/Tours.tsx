@@ -179,13 +179,17 @@ export default function Tours({
             : [t.startDate.slice(0, 7)],
         ),
       ),
-    ).map((m) => {
-      const [year, month] = m!.split("-");
-      return {
-        label: `${MONTH_NAMES_LONG[parseInt(month, 10) - 1]} ${year}`,
-        value: m,
-      };
-    });
+    )
+      .map((m) => {
+        const [year, month] = m!.split("-");
+        return {
+          label: `${MONTH_NAMES_LONG[parseInt(month, 10) - 1]} ${year}`,
+          value: m,
+        };
+      })
+      .sort((a, b) => a.value.localeCompare(b.value));
+
+    console.log(availableOptions);
 
     return [{ value: "todos", label: "Cualquier mes" }, ...availableOptions];
   }, []);
