@@ -2602,6 +2602,17 @@ footer a:hover {
   transform: translateX(4px);
 }
 
+.ft-mobile-icon {
+  display: none;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: transform 0.3s;
+  margin-left: 8px;
+}
+
 /* ─── JSON-LD (hidden) ───────────────────────────────────────────────────────── */
 script[type="application/ld+json"] {
   display: none;
@@ -2620,6 +2631,14 @@ script[type="application/ld+json"] {
   }
 }
 
+@media (min-width: 1201px) {
+  .tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+  }
+}
+
 @media (max-width: 1200px) {
   .hero .inner {
     padding: 0 24px 140px 24px;
@@ -2631,6 +2650,11 @@ script[type="application/ld+json"] {
 
   .scroll-down {
     display: none;
+  }
+
+  .tour {
+    flex-basis: 70%;
+    max-width: 280px;
   }
 }
 
@@ -2707,6 +2731,10 @@ script[type="application/ld+json"] {
     display: none;
   }
 
+  .ft-mobile-icon {
+    display: inline-flex;
+  }
+
   .intro .grid,
   .about .grid {
     grid-template-columns: 1fr;
@@ -2748,10 +2776,6 @@ script[type="application/ld+json"] {
   }
 
   /* Smaller tour cards so it reads as a scrollable rail on phones */
-  .tour {
-    flex-basis: 70%;
-    max-width: 280px;
-  }
   .tour .media {
     aspect-ratio: 3/4;
   }

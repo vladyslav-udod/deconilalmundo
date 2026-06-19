@@ -29,6 +29,12 @@ export default function FeaturedTour({ featuredTour }: FeaturedTourProps) {
     .filter(Boolean)
     .join(" ");
 
+  const arrowIcon = (
+    <svg viewBox="0 0 24 24">
+      <path d="M5 12h14M13 5l7 7-7 7" />
+    </svg>
+  );
+
   return (
     <a
       className={cls}
@@ -41,7 +47,12 @@ export default function FeaturedTour({ featuredTour }: FeaturedTourProps) {
           <span className="ft-dot" aria-hidden="true"></span>
           {kicker}
         </span>
-        <span className="ft-name">{name}</span>
+        <span className="ft-name">
+          {name}{" "}
+          <svg className="ft-mobile-icon" viewBox="0 0 24 24">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </span>
         {dateValue && (
           <span className="ft-when">
             {dateLabel} <b>{formatShortDate(dateValue)}</b>
@@ -49,9 +60,7 @@ export default function FeaturedTour({ featuredTour }: FeaturedTourProps) {
         )}
         <span className="ft-cta">
           {ctaLabel}
-          <svg viewBox="0 0 24 24">
-            <path d="M5 12h14M13 5l7 7-7 7" />
-          </svg>
+          {arrowIcon}
         </span>
       </span>
     </a>
