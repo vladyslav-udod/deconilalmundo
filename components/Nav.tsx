@@ -22,10 +22,11 @@ interface NavProps {
 
 const LINKS = [
   { id: "tours", label: "Destinos" },
-  { id: "tipos", label: "Tipos de viaje" },
+  // { id: "tipos", label: "Tipos de viaje" },
   { id: "nosotros", label: "Nosotros" },
   // { id: "testimonios", label: "Opiniones" },
   { id: "contacts", label: "Contactos", existOnAllPages: true },
+  { id: "guia-de-conil", label: "GUÍA DE CONIL", isExternalPage: true },
 ];
 
 export default function Nav({
@@ -70,6 +71,10 @@ export default function Nav({
     fn?.();
   };
 
+  const filteresLinks = LINKS.filter(
+    (item) => pathname.split("/")[1] !== item.id,
+  );
+
   return (
     <>
       <nav
@@ -86,16 +91,24 @@ export default function Nav({
 
         <div className="nav-center">
           <ul className="nav-links" role="list">
-            {LINKS.map(({ id, label, existOnAllPages }) => (
-              <li key={id}>
-                <a
-                  href={existOnAllPages && !onHome ? `#${id}` : `/#${id}`}
-                  onClick={handleClick(id)}
-                >
-                  {label}
-                </a>
-              </li>
-            ))}
+            {filteresLinks.map(
+              ({ id, label, existOnAllPages, isExternalPage }) => (
+                <li key={id}>
+                  <a
+                    href={
+                      isExternalPage
+                        ? `/${id}`
+                        : existOnAllPages && !onHome
+                          ? `#${id}`
+                          : `/#${id}`
+                    }
+                    onClick={isExternalPage ? undefined : handleClick(id)}
+                  >
+                    {label}
+                  </a>
+                </li>
+              ),
+            )}
           </ul>
 
           {tourBar && (
@@ -149,23 +162,31 @@ export default function Nav({
         inert={!menuOpen}
       >
         <ul>
-          {LINKS.map(({ id, label, existOnAllPages }) => (
-            <li key={id}>
-              <a
-                href={existOnAllPages && !onHome ? `#${id}` : `/#${id}`}
-                onClick={closeAnd(
-                  onHome
-                    ? () =>
-                        document
-                          .getElementById(id)
-                          ?.scrollIntoView({ behavior: "smooth" })
-                    : undefined,
-                )}
-              >
-                {label}
-              </a>
-            </li>
-          ))}
+          {filteresLinks.map(
+            ({ id, label, existOnAllPages, isExternalPage }) => (
+              <li key={id}>
+                <a
+                  href={
+                    isExternalPage
+                      ? `/${id}`
+                      : existOnAllPages && !onHome
+                        ? `#${id}`
+                        : `/#${id}`
+                  }
+                  onClick={closeAnd(
+                    onHome
+                      ? () =>
+                          document
+                            .getElementById(id)
+                            ?.scrollIntoView({ behavior: "smooth" })
+                      : undefined,
+                  )}
+                >
+                  {label}
+                </a>
+              </li>
+            ),
+          )}
           {tourBar && (
             <li>
               <a

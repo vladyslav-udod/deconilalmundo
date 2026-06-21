@@ -508,6 +508,11 @@ button {
     0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
+.-secondary .hero h1 {
+  font-size: clamp(36px, 5.5vw, 124px);
+  max-width: 60%;
+}
+
 .hero h1 em {
   font-style: normal;
   color: var(--accent-2);
@@ -2656,6 +2661,25 @@ script[type="application/ld+json"] {
     flex-basis: 70%;
     max-width: 280px;
   }
+
+  /* Two-column bar on mobile: brand on the left, controls on the right. */
+  .nav {
+    grid-template-columns: 1fr auto;
+    padding: 16px 22px;
+  }
+
+  .nav-center {
+    display: none;
+  }
+
+  /* Hide the tour price + Reservar strip in the bar on phones/tablets. */
+  .nav-booking {
+    display: none;
+  }
+
+  .nav-burger {
+    display: flex;
+  }
 }
 
 @media (max-width: 1000px) {
@@ -2682,16 +2706,16 @@ script[type="application/ld+json"] {
       linear-gradient(to top, rgba(8, 15, 30, 0.85), rgba(8, 15, 30, 0) 60%);
   }
 
+  .-secondary .hero h1 {
+    font-size: 32px;
+  }
+
   .ft.is-floating {
     bottom: 80px;
   }
 
   .nav-links {
     display: none;
-  }
-
-  .nav-burger {
-    display: flex;
   }
 
   .nav .brand .mark {
@@ -2704,23 +2728,8 @@ script[type="application/ld+json"] {
     font-size: 15px;
   }
 
-  /* Two-column bar on mobile: brand on the left, controls on the right. */
-  .nav {
-    grid-template-columns: 1fr auto;
-    padding: 16px 22px;
-  }
-
   .nav.is-solid {
     padding: 12px 22px;
-  }
-
-  .nav-center {
-    display: none;
-  }
-
-  /* Hide the tour price + Reservar strip in the bar on phones/tablets. */
-  .nav-booking {
-    display: none;
   }
 
   section {
@@ -2922,6 +2931,10 @@ script[type="application/ld+json"] {
 
   .hero .eyebrow {
     font-size: 10px;
+  }
+
+  .-secondary .hero h1 {
+    max-width: 100%;
   }
 
   .nav .brand .wordmark b,

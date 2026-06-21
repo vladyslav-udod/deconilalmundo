@@ -138,7 +138,9 @@ export interface HeroSection {
   headingEmphasis: string;
   lede: string;
   ctaText: string;
+  ctaUrl?: string;
   ghostCtaText: string;
+  ghostCtaUrl?: string;
   backgroundImage?: SanityImage;
   backgroundImageUrl?: string;
   metaLine: string;
@@ -170,6 +172,66 @@ export interface TestimonialSection {
   heading: string;
   headingEmphasis: string;
   description: string;
+}
+
+// ─── Guía de Conil ───────────────────────────────────────────────────────────
+
+/** Background treatment for a guide section. */
+export type SectionVariant = "plain" | "alt" | "dark";
+
+/** A single place / card inside a guide section. */
+export interface GuideItem {
+  _key: string;
+  /** Small uppercase eyebrow on the card (was `ptype`). */
+  label?: string;
+  /** Card heading (was `name`). */
+  title: string;
+  /** Card body copy (was `desc`). */
+  description?: string;
+  /** Resolved, ready-to-render image data (see getGuidePage). */
+  image?: {
+    url: string;
+    alt?: string;
+    lqip?: string;
+    width?: number;
+    height?: number;
+  } | null;
+  /** Google Maps deep link for this item (was `mapHref`). */
+  googleLink?: string;
+  /** Optional phone number. When present a tel: link is shown. */
+  phone?: string;
+  /**
+   * Optional date/agenda label (e.g. "Mayo", "Jun – Sep"). When set, the card
+   * shows a date chip instead of map/phone — how the "dark" agenda sections
+   * (Fiestas, Semana Santa) render.
+   */
+  when?: string;
+}
+
+/** One editable section of the guide page. */
+export interface GuideSection {
+  _key: string;
+  /** URL anchor + scroll-spy id (e.g. "playas"). */
+  anchor: string;
+  /** Short tab label used in the sticky category bar. */
+  navLabel: string;
+  /** Eyebrow above the title (was `kicker`). */
+  label?: string;
+  /** Section heading (was `title`). */
+  title: string;
+  /** One word/phrase inside `title` to emphasise (italic + accent). */
+  titleHighlight?: string;
+  /** Section intro paragraph (was `intro`). */
+  description?: string;
+  /** "Ver toda la categoría en el mapa" link (was `mapAll`). */
+  googleMapLink?: string;
+  variant: SectionVariant;
+  items: GuideItem[];
+}
+
+export interface GuidePage {
+  title: string;
+  sections: GuideSection[];
 }
 
 export interface CtaSection {

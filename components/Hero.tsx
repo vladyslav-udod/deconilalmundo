@@ -7,6 +7,7 @@ import { ArrowDown, ChevronDown } from "@/components/icons";
 
 interface HeroProps {
   data: HeroSection;
+  bkgImage?: string;
 }
 
 // Sanity handles resizing/encoding per srcset width.
@@ -25,10 +26,17 @@ const heroLoader = ({
   return `${base}?w=${width}&q=${quality ?? 65}&auto=format&fit=max`;
 };
 
-export default function Hero({ data }: HeroProps) {
+export default function Hero({ data, bkgImage }: HeroProps) {
   // "Ver próximos viajes" resets the Próximas salidas filters to the default
   // state, then scrolls to the section.
-  const scrollToTours = useCallback(() => {
+  const scrollToCta = useCallback(() => {
+    if (data.ctaUrl) {
+      const element = document.querySelector(data.ctaUrl);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      return;
+    }
     window.dispatchEvent(new Event("tours:reset"));
     requestAnimationFrame(() => {
       document
@@ -37,7 +45,7 @@ export default function Hero({ data }: HeroProps) {
     });
   }, []);
 
-  const bgUrl = data.backgroundImageUrl ?? "/hero-bg.jpg";
+  const bgUrl = bkgImage ?? data.backgroundImageUrl ?? "/hero-bg.jpg";
 
   return (
     <header className="hero" id="top">
@@ -66,11 +74,11 @@ export default function Hero({ data }: HeroProps) {
 
         <p className="lede">{data.lede}</p>
         <div className="actions">
-          <button type="button" className="btn-primary" onClick={scrollToTours}>
+          <button type="button" className="btn-primary" onClick={scrollToCta}>
             <span>{data.ctaText}</span>
             <ArrowDown />
           </button>
-          <a href="#nosotros" className="btn-ghost">
+          <a href={data.ghostCtaUrl} className="btn-ghost">
             {data.ghostCtaText}
           </a>
         </div>
@@ -83,7 +91,7 @@ export default function Hero({ data }: HeroProps) {
       <button
         type="button"
         className="scroll-down"
-        onClick={scrollToTours}
+        onClick={scrollToCta}
         aria-label="Bajar a los destinos"
       >
         <span className="drop-line" aria-hidden="true" />

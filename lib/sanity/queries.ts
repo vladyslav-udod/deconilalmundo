@@ -5,6 +5,8 @@ import type {
   AboutSection,
   CtaSection,
   Departure,
+  GuidePage,
+  GuideSection,
   HeroSection,
   IntroSection,
   ItineraryDay,
@@ -962,6 +964,260 @@ export async function getTourBySlug(slug: string): Promise<TourDetail | null> {
   } catch {
     const found = FALLBACK_TOURS.find((t) => t.slug === slug);
     return found ? makeFallbackDetail(found) : null;
+  }
+}
+
+// ─── Guía de Conil ───────────────────────────────────────────────────────────
+
+// Editorial fallback so /guia-de-conil renders fully before the CMS document
+// exists. Images use Unsplash (allowed in next.config remotePatterns).
+const FALLBACK_GUIDE: GuidePage = {
+  title: "Guía de Conil de la Frontera",
+  sections: [
+    {
+      _key: "playas",
+      anchor: "playas",
+      navLabel: "Playas",
+      label: "Sol y arena",
+      title: "Las mejores playas de Conil",
+      titleHighlight: "playas",
+      description:
+        "Kilómetros de arena fina y aguas turquesa, desde la animada playa urbana hasta calas escondidas entre acantilados.",
+      googleMapLink: "https://maps.google.com/?q=Playas+de+Conil",
+      variant: "plain",
+      items: [
+        {
+          _key: "p1",
+          label: "Playa urbana",
+          title: "Playa de los Bateles",
+          description:
+            "La playa del pueblo, junto al casco antiguo. Arena dorada, paseo marítimo y chiringuitos a pie de orilla.",
+          image: {
+            url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=640&h=427&q=75",
+            alt: "Playa de los Bateles en Conil",
+          },
+          googleLink: "https://maps.google.com/?q=Playa+de+los+Bateles",
+        },
+        {
+          _key: "p2",
+          label: "Calas vírgenes",
+          title: "Calas de Roche",
+          description:
+            "Pequeñas calas resguardadas entre acantilados de arcilla, ideales para una jornada tranquila lejos del bullicio.",
+          image: {
+            url: "https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=640&h=427&q=75",
+            alt: "Calas de Roche",
+          },
+          googleLink: "https://maps.google.com/?q=Calas+de+Roche",
+        },
+        {
+          _key: "p3",
+          label: "Naturaleza",
+          title: "Playa de Castilnovo",
+          description:
+            "Playa virgen de más de 4 km junto a la antigua torre almenara. Dunas, marismas y atardeceres de postal.",
+          image: {
+            url: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=640&h=427&q=75",
+            alt: "Playa de Castilnovo",
+          },
+          googleLink: "https://maps.google.com/?q=Playa+de+Castilnovo",
+        },
+      ],
+    },
+    {
+      _key: "casco-antiguo",
+      anchor: "casco-antiguo",
+      navLabel: "Casco antiguo",
+      label: "Historia marinera",
+      title: "Paseo por el casco antiguo",
+      titleHighlight: "casco antiguo",
+      description:
+        "Calles blancas, plazas con encanto y la herencia de un pueblo de pescadores. El corazón de Conil.",
+      variant: "alt",
+      items: [
+        {
+          _key: "c1",
+          label: "Mirador",
+          title: "Torre de Guzmán",
+          description:
+            "Torre del siglo XV, antiguo bastión defensivo. Sube a lo alto para una vista privilegiada del pueblo y el mar.",
+          image: {
+            url: "https://images.unsplash.com/photo-1558642084-fd07fae5282e?auto=format&fit=crop&w=640&h=427&q=75",
+            alt: "Torre de Guzmán",
+          },
+          googleLink: "https://maps.google.com/?q=Torre+de+Guzm%C3%A1n+Conil",
+        },
+        {
+          _key: "c2",
+          label: "Plaza",
+          title: "Plaza de Santa Catalina",
+          description:
+            "El antiguo enclave de la iglesia, hoy un balcón sobre la playa de los Bateles y punto de encuentro al atardecer.",
+          image: {
+            url: "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?auto=format&fit=crop&w=640&h=427&q=75",
+            alt: "Plaza de Santa Catalina",
+          },
+          googleLink: "https://maps.google.com/?q=Santa+Catalina+Conil",
+        },
+      ],
+    },
+    {
+      _key: "gastronomia",
+      anchor: "gastronomia",
+      navLabel: "Gastronomía",
+      label: "Sabor del mar",
+      title: "Dónde comer en Conil",
+      titleHighlight: "comer",
+      description:
+        "El atún rojo de almadraba es el rey. Tabernas marineras, ventas y arrocería frente al mar.",
+      variant: "plain",
+      items: [
+        {
+          _key: "g1",
+          label: "Atún de almadraba",
+          title: "La Almadraba",
+          description:
+            "Templo del atún rojo capturado con el arte milenario de la almadraba. Imprescindible en temporada (mayo–junio).",
+          image: {
+            url: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?auto=format&fit=crop&w=640&h=427&q=75",
+            alt: "Plato de atún rojo",
+          },
+          phone: "+34956000000",
+          googleLink: "https://maps.google.com/?q=Restaurante+atun+Conil",
+        },
+        {
+          _key: "g2",
+          label: "Tapas",
+          title: "Tabernas del centro",
+          description:
+            "Pescaíto frito, tortillitas de camarones y vino de la tierra en las tabernas de las calles blancas.",
+          image: {
+            url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=640&h=427&q=75",
+            alt: "Tapas andaluzas",
+          },
+        },
+      ],
+    },
+    {
+      _key: "agenda",
+      anchor: "agenda",
+      navLabel: "Agenda",
+      label: "Todo el año",
+      title: "Fiestas y eventos de Conil",
+      titleHighlight: "Fiestas",
+      description:
+        "Tradiciones marineras, ferias y noches de verano que marcan el calendario conileño.",
+      variant: "dark",
+      items: [
+        {
+          _key: "a1",
+          label: "Gastronomía",
+          title: "Ruta del Atún",
+          description:
+            "Jornadas gastronómicas dedicadas al atún rojo de almadraba en los restaurantes del pueblo.",
+          when: "Mayo",
+        },
+        {
+          _key: "a2",
+          label: "Tradición",
+          title: "Feria y Velada",
+          description:
+            "La gran fiesta del verano: casetas, música y ambiente en honor a la Virgen de las Virtudes.",
+          when: "Junio",
+        },
+        {
+          _key: "a3",
+          label: "Verano",
+          title: "Noches de cine y música",
+          description:
+            "Cine de verano, conciertos al aire libre y mercadillos nocturnos durante toda la temporada estival.",
+          when: "Jul – Sep",
+        },
+      ],
+    },
+  ],
+};
+
+const guidePageQuery = `
+  *[_type == "guidePage"][0]{
+    title,
+    "sections": sections[]{
+      _key,
+      "anchor": anchor.current,
+      navLabel,
+      label,
+      title,
+      titleHighlight,
+      description,
+      googleMapLink,
+      variant,
+      "items": items[]{
+        _key,
+        label,
+        title,
+        description,
+        image{
+          ...,
+          "alt": alt,
+          "lqip": asset->metadata.lqip,
+          "dimensions": asset->metadata.dimensions
+        },
+        googleLink,
+        phone,
+        when
+      }
+    }
+  }
+`;
+
+type RawGuideSection = Omit<GuideSection, "items" | "variant"> & {
+  variant?: GuideSection["variant"];
+  items: Array<
+    Omit<GuideSection["items"][number], "image"> & {
+      image?: {
+        asset?: unknown;
+        alt?: string;
+        lqip?: string;
+        dimensions?: { width: number; height: number };
+      } | null;
+    }
+  >;
+};
+
+function mapGuideSections(sections: RawGuideSection[]): GuideSection[] {
+  return (sections ?? []).map((s) => ({
+    ...s,
+    variant: s.variant ?? "plain",
+    items: (s.items ?? []).map((it) => ({
+      ...it,
+      image: it.image?.asset
+        ? {
+            url: urlFor(it.image)
+              .width(640)
+              .height(427)
+              .fit("crop")
+              .auto("format")
+              .url(),
+            alt: it.image.alt,
+            lqip: it.image.lqip,
+            width: it.image.dimensions?.width,
+            height: it.image.dimensions?.height,
+          }
+        : null,
+    })),
+  }));
+}
+
+export async function getGuidePage(): Promise<GuidePage> {
+  if (!isConfigured) return FALLBACK_GUIDE;
+  try {
+    const data = await client.fetch<
+      (Omit<GuidePage, "sections"> & { sections: RawGuideSection[] }) | null
+    >(guidePageQuery, {}, { next: { revalidate: 60 } });
+    if (!data?.sections?.length) return FALLBACK_GUIDE;
+    return { title: data.title, sections: mapGuideSections(data.sections) };
+  } catch {
+    return FALLBACK_GUIDE;
   }
 }
 

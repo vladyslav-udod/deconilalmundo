@@ -1,5 +1,8 @@
 import { aboutSectionType } from './aboutSection'
 import { ctaSectionType } from './ctaSection'
+import { guideItemType } from './guideItem'
+import { guidePageType } from './guidePage'
+import { guideSectionType } from './guideSection'
 import { heroSectionType } from './heroSection'
 import { introSectionType } from './introSection'
 import { siteSettingsType } from './siteSettings'
@@ -24,4 +27,8 @@ export const schemaTypes = [
   aboutSectionType,
   testimonialSectionType,
   ctaSectionType,
+  guidePageType,
+  // Objects (used inside guidePage)
+  guideSectionType,
+  guideItemType,
 ]

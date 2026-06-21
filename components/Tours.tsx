@@ -189,8 +189,6 @@ export default function Tours({
       })
       .sort((a, b) => a.value.localeCompare(b.value));
 
-    console.log(availableOptions);
-
     return [{ value: "todos", label: "Cualquier mes" }, ...availableOptions];
   }, []);
 
