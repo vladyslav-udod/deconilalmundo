@@ -13,11 +13,50 @@ import {
 } from "@/lib/sanity/queries";
 import { ConilGuide } from "./_components";
 
+const guideTitle = "Guía de Conil de la Frontera | Qué ver, hacer y comer";
+const guideDescription =
+  "Guía local de Conil de la Frontera (Cádiz): playas y calas vírgenes, casco antiguo marinero, atún de almadraba y los mejores lugares, actividades y consejos para tu visita.";
+
 export const metadata: Metadata = {
-  title: "GUÍA DE CONIL DE LA FRONTERA",
-  description:
-    "Guía de Conil de la Frontera: descubre los mejores lugares, actividades y consejos para tu visita.",
-  alternates: { canonical: "/guia-de-conil" },
+  // `absolute` opts out of the "%s | De Conil al Mundo" template from the
+  // root layout so the title isn't double-branded / too long.
+  title: { absolute: guideTitle },
+  description: guideDescription,
+  keywords: [
+    "guía conil de la frontera",
+    "qué ver en conil",
+    "qué hacer en conil",
+    "playas conil",
+    "calas conil",
+    "atún de almadraba conil",
+    "turismo conil cádiz",
+  ],
+  alternates: {
+    canonical: "/guia-de-conil",
+    languages: { "es-ES": "/guia-de-conil" },
+  },
+  openGraph: {
+    type: "article",
+    locale: "es_ES",
+    url: "/guia-de-conil",
+    siteName: "De Conil al Mundo",
+    title: guideTitle,
+    description: guideDescription,
+    images: [
+      {
+        url: "/conil-bg.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Conil de la Frontera, Cádiz",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: guideTitle,
+    description: guideDescription,
+    images: ["/conil-bg.jpeg"],
+  },
 };
 
 export default async function GuiaDeConilDeLaFronteraPage() {
