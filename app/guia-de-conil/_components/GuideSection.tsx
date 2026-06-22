@@ -27,8 +27,6 @@ export default function GuideSection({
 }: {
   section: GuideSectionType;
 }) {
-  console.log(section.titleHighlight);
-
   return (
     <section
       id={section.anchor}

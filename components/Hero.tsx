@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import Image from "next/image";
-import type { HeroSection, Tour } from "@/types";
+import type { HeroSection } from "@/types";
 import { ArrowDown, ChevronDown } from "@/components/icons";
 
 interface HeroProps {
@@ -47,11 +47,15 @@ export default function Hero({ data, bkgImage }: HeroProps) {
 
   const bgUrl = bkgImage ?? data.backgroundImageUrl ?? "/hero-bg.jpg";
 
+  // Sanity URLs use the CDN loader; local files fall through to Next's own
+  // optimizer so they're resized/re-encoded (webp) instead of served raw.
+  const isSanity = bgUrl.includes("cdn.sanity.io");
+
   return (
     <header className="hero" id="top">
       <div className="bg" aria-hidden="true">
         <Image
-          loader={heroLoader}
+          {...(isSanity ? { loader: heroLoader } : {})}
           src={bgUrl}
           alt=""
           fill
