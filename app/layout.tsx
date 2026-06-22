@@ -97,7 +97,7 @@ const structuredData = {
   description:
     "Agencia de viajes acompañados en Conil de la Frontera, Cádiz. Especialistas en viajes en grupo, circuitos internacionales, viajes para mujeres y solteros.",
   url: siteUrl,
-  telephone: "+34667068085",
+  telephone: "+34623273176",
   email: "halcont90@halconviajes.com",
   foundingDate: "2004",
   address: {

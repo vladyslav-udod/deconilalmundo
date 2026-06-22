@@ -5,7 +5,12 @@
  */
 .root {
   --guide-font-serif: var(--font-serif, "Roboto Serif", Georgia, serif);
-  --guide-font-sans: var(--font-sans, var(--font-roboto), system-ui, sans-serif);
+  --guide-font-sans: var(
+    --font-sans,
+    var(--font-roboto),
+    system-ui,
+    sans-serif
+  );
   /* The category bar sticks just below the fixed site nav (solid height). */
   --guide-catbar-top: 86px;
   background: var(--bg);
@@ -32,6 +37,7 @@
   margin: 0 auto;
   padding: 0 40px;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -144,7 +150,9 @@
   font-weight: 600;
   border-bottom: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
   padding-bottom: 6px;
-  transition: border-color 0.25s ease, gap 0.25s ease;
+  transition:
+    border-color 0.25s ease,
+    gap 0.25s ease;
 }
 .catMapBtn:hover {
   border-bottom-color: var(--accent);
@@ -183,8 +191,10 @@
   border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1),
-    border-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 .guide.alt .place {
   background: var(--bg);
