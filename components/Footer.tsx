@@ -1,16 +1,16 @@
-import type { SiteSettings } from '@/types'
+import type { SiteSettings } from "@/types";
 
 interface FooterProps {
-  settings: SiteSettings
+  settings: SiteSettings;
 }
 
 export default function Footer({ settings }: FooterProps) {
   const socialLinks = [
-    { href: settings.instagram, label: 'Instagram' },
-    { href: settings.facebook, label: 'Facebook' },
-    { href: settings.youtube, label: 'YouTube' },
-    { href: settings.newsletter, label: 'Newsletter' },
-  ].filter((l) => l.href)
+    { href: settings.instagram, label: "Instagram" },
+    { href: settings.facebook, label: "Facebook" },
+    { href: settings.youtube, label: "YouTube" },
+    { href: settings.newsletter, label: "Newsletter" },
+  ].filter((l) => l.href);
 
   return (
     <footer>
@@ -21,28 +21,41 @@ export default function Footer({ settings }: FooterProps) {
             <span className="mark" aria-hidden="true" />
             {settings.siteName}
           </div>
-          <p>Agencia de viajes acompañados. Operamos junto a {settings.tagline} desde 2004.</p>
+          <p>
+            Agencia de viajes acompañados. Operamos junto a {settings.tagline}{" "}
+            desde 2004.
+          </p>
         </div>
 
         {/* Nav */}
         <nav aria-label="Navegación del pie">
-          <h5>Explorar</h5>
+          <h4>Explorar</h4>
           <ul>
-            <li><a href="/#tours">Próximos destinos</a></li>
-            <li><a href="/#tipos">Tipos de viaje</a></li>
-            <li><a href="/#nosotros">Quiénes somos</a></li>
-            <li><a href="/#testimonios">Opiniones</a></li>
+            <li>
+              <a href="/#tours">Próximos destinos</a>
+            </li>
+            <li>
+              <a href="/#tipos">Tipos de viaje</a>
+            </li>
+            <li>
+              <a href="/#nosotros">Quiénes somos</a>
+            </li>
+            <li>
+              <a href="/#testimonios">Opiniones</a>
+            </li>
           </ul>
         </nav>
 
         {/* Contact */}
-        <address style={{ fontStyle: 'normal' }}>
-          <h5>Contacto</h5>
+        <address style={{ fontStyle: "normal" }}>
+          <h4>Contacto</h4>
           <ul>
             <li>{settings.address}</li>
             {settings.phone && (
               <li>
-                <a href={`tel:${settings.phone.replace(/\s/g, '')}`}>{settings.phone}</a>
+                <a href={`tel:${settings.phone.replace(/\s/g, "")}`}>
+                  {settings.phone}
+                </a>
               </li>
             )}
             {settings.email && (
@@ -57,7 +70,7 @@ export default function Footer({ settings }: FooterProps) {
         {/* Social */}
         {socialLinks.length > 0 && (
           <nav aria-label="Redes sociales">
-            <h5>Síguenos</h5>
+            <h4>Síguenos</h4>
             <ul>
               {socialLinks.map(({ href, label }) => (
                 <li key={label}>
@@ -75,12 +88,12 @@ export default function Footer({ settings }: FooterProps) {
         <span>{settings.legalText}</span>
         <span>
           <a href="/aviso-legal">Aviso legal</a>
-          {' · '}
+          {" · "}
           <a href="/privacidad">Política de privacidad</a>
-          {' · '}
+          {" · "}
           <a href="/cookies">Cookies</a>
         </span>
       </div>
     </footer>
-  )
+  );
 }
