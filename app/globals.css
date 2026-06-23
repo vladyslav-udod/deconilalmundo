@@ -2342,6 +2342,7 @@ footer a:hover {
 .contacts .section-label {
   text-align: center;
   justify-content: center;
+  color: var(--accent-deep);
 }
 .cx-contact {
   background: var(--paper);
