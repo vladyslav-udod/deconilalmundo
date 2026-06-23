@@ -494,7 +494,7 @@ export default function Tours({
             </button>
           </div>
         ) : (
-          <div className="tours-grid" role="list" aria-label="Próximas salidas">
+          <div className="tours-grid" aria-label="Próximas salidas">
             {filtered.map((tour) => {
               const { display, note, prefix } = formatDateRange(tour, now);
               const imgSrc =
