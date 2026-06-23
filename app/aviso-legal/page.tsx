@@ -34,7 +34,7 @@ export default function AvisoLegalPage() {
           <strong>Correo electrónico:</strong> halcont90@halconviajes.com
         </li>
         <li>
-          <strong>Teléfono:</strong> +34 667 06 80 85
+          <strong>Teléfono:</strong> +34 623 27 31 76
         </li>
       </ul>
 

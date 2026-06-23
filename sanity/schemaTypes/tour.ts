@@ -555,7 +555,7 @@ export const tourType = defineType({
       type: "string",
       group: "contact",
       description: "Teléfono de contacto para este viaje.",
-      initialValue: "+34 667 06 80 85",
+      initialValue: "+34 623 27 31 76",
     }),
     defineField({
       name: "contactInstagram",
