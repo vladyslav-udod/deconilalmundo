@@ -1527,7 +1527,7 @@ h2.display em {
   position: absolute;
   left: -32px;
   bottom: 40px;
-  background: var(--accent);
+  background: var(--accent-deep);
   color: #fff;
   padding: 22px 26px;
   max-width: 240px;
@@ -1646,7 +1646,7 @@ h2.display em {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: var(--accent-2);
+  background: var(--accent-2-deep);
   color: #fff;
   display: flex;
   align-items: center;
@@ -2441,16 +2441,14 @@ footer a:hover {
   width: 250px;
   align-items: center;
   gap: 10px;
-  background: var(--whatsapp);
+  background: var(--accent);
   color: var(--paper);
   padding: 14px 24px;
   border-radius: 999px;
   font-weight: 600;
   font-size: 15px;
   text-decoration: none;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: transform 0.25s ease;
 }
 .cx-wa svg {
   width: 18px;
@@ -2459,7 +2457,6 @@ footer a:hover {
 }
 .cx-wa:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(37, 211, 102, 0.38);
 }
 
 /* Features tour block */

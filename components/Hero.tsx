@@ -59,8 +59,7 @@ export default function Hero({ data, bkgImage }: HeroProps) {
           src={bgUrl}
           alt=""
           fill
-          preload
-          fetchPriority="high"
+          priority
           quality={50}
           sizes="100vw"
           style={{ objectFit: "cover", objectPosition: "center" }}

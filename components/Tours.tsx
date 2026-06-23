@@ -506,7 +506,7 @@ export default function Tours({
                   : null;
 
               return (
-                <article key={tour._id} className="tour" role="listitem">
+                <article key={tour._id} className="tour">
                   <Link
                     href={`/viajes/${tour.slug}`}
                     prefetch
