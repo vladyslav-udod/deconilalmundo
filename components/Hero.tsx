@@ -23,7 +23,7 @@ const heroLoader = ({
 }) => {
   if (!src.includes("cdn.sanity.io")) return src;
   const base = src.split("?")[0];
-  return `${base}?w=${width}&q=${quality ?? 65}&auto=format&fit=max`;
+  return `${base}?w=${width}&q=${quality ?? 50}&auto=format&fit=max`;
 };
 
 export default function Hero({ data, bkgImage }: HeroProps) {
@@ -59,8 +59,9 @@ export default function Hero({ data, bkgImage }: HeroProps) {
           src={bgUrl}
           alt=""
           fill
-          priority
-          quality={65}
+          preload
+          fetchPriority="high"
+          quality={50}
           sizes="100vw"
           style={{ objectFit: "cover", objectPosition: "center" }}
         />
