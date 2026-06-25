@@ -66,46 +66,48 @@ export default function TourDepartures({
             <span>Precio</span>
             <span></span>
           </div>
-          {departures.map((dep) => {
-            const { range, year } = formatRange(dep.date, tour.duration);
-            const a = AVAIL[dep.availability] ?? AVAIL.available;
-            const full = dep.availability === "full";
-            return (
-              <div className="date-row" key={dep._key}>
-                <div className="when">
-                  {range}
-                  <small>{year}</small>
-                </div>
-                <div>
-                  <span className={`badge ${a.cls}`}>{a.label}</span>
-                </div>
-                {dep.price ? (
-                  <div className="pr">
-                    {dep.price?.toLocaleString("es-ES")}€
-                    <small>por persona</small>
+          {departures
+            .filter((dep) => new Date(dep.date) >= new Date())
+            .map((dep) => {
+              const { range, year } = formatRange(dep.date, tour.duration);
+              const a = AVAIL[dep.availability] ?? AVAIL.available;
+              const full = dep.availability === "full";
+              return (
+                <div className="date-row" key={dep._key}>
+                  <div className="when">
+                    {range}
+                    <small>{year}</small>
                   </div>
-                ) : (
-                  <div></div>
-                )}
-                <div className="go">
-                  {!full && (
-                    <a
-                      href={whatsappLink(
-                        settings.whatsappNumber,
-                        tour,
-                        dep.date,
-                      )}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-primary sm"
-                    >
-                      <span>Reservar</span>
-                    </a>
+                  <div>
+                    <span className={`badge ${a.cls}`}>{a.label}</span>
+                  </div>
+                  {dep.price ? (
+                    <div className="pr">
+                      {dep.price?.toLocaleString("es-ES")}€
+                      <small>por persona</small>
+                    </div>
+                  ) : (
+                    <div></div>
                   )}
+                  <div className="go">
+                    {!full && (
+                      <a
+                        href={whatsappLink(
+                          settings.whatsappNumber,
+                          tour,
+                          dep.date,
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary sm"
+                      >
+                        <span>Reservar</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
 
         <p className="date-note">
