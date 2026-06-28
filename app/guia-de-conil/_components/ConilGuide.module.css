@@ -84,7 +84,7 @@
 /* ===== SECTION ===== */
 .guide {
   padding: 104px 40px;
-  scroll-margin-top: calc(var(--guide-catbar-top) + 64px);
+  scroll-margin-top: calc(var(--guide-catbar-top) + var(--guide-catbar-h, 51px));
 }
 .guide.alt {
   background: var(--paper);

@@ -24,12 +24,14 @@ const VARIANT_CLASS = {
 
 export default function GuideSection({
   section,
+  id,
 }: {
   section: GuideSectionType;
+  id: string;
 }) {
   return (
     <section
-      id={section.anchor}
+      id={id}
       className={`${styles.guide} ${VARIANT_CLASS[section.variant]}`}
     >
       <div className={styles.wrap}>

@@ -67,7 +67,7 @@ export default async function HomePage({
       <Nav settings={settings} />
 
       <main id="main">
-        <Hero data={hero} />
+        <Hero data={{ ...hero, ghostCtaUrl: "#nosotros" }} />
         <FeaturedTour featuredTour={tours.filter((tour) => tour.featured)[0]} />
         <Tours
           tours={tours}
